@@ -3,833 +3,896 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Diagnóstico Integral de Gestión · Criterya</title>
+<title>Criterya · Autodiagnóstico de gestión sin costo</title>
+<meta name="description" content="Autodiagnóstico online y sin costo para PyMEs, distribuidoras y comercios. Puntaje por área, FODA y plan de acción. Tableros de indicadores, IA aplicada e investigación de mercado.">
 <link rel="icon" href="/favicon.png" type="image/png">
-<meta name="description" content="Diagnóstico integral de gestión para distribuidoras de materiales eléctricos. Criterya, consultora de gestión empresarial.">
+<meta property="og:title" content="Criterya · Autodiagnóstico de gestión sin costo">
+<meta property="og:description" content="¿Querés saber dónde está parada tu empresa? Autodiagnóstico online, sin costo.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --navy:#043760; --teal:#0D475A; --cyan:#2F8FA0; --ink:#0A1B2A;
-  --paper:#F1F4F6; --card:#FFFFFF; --line:#DBE3E8; --muted:#657A8B;
-  --n0:#9A3B2C; --n1:#B5822C; --n2:#2F8FA0; --n3:#043760;
+  /* marca: sale del logo */
+  --navy:#043760; --teal:#0D475A; --cyan:#2F8FA0;
+  --ink:#0A1B2A; --paper:#FFFFFF; --card:#FFFFFF;
+  --surface:#F4F8F9; --line:#D8E2E8; --muted:#5F7486;
+  /* bandas del instrumento: rojo, ámbar, cian, navy */
+  --b0:#9A3B2C; --b1:#B5822C; --b2:#2F8FA0; --b3:#043760;
+  /* acento de acción: único color cálido del sistema */
+  --act:#B84A22; --act-h:#993A18;
   --disp:"Archivo","Helvetica Neue",Arial,sans-serif;
   --body:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,monospace;
-  --sh:0 1px 2px rgba(4,55,96,.05),0 8px 24px -12px rgba(4,55,96,.18);
+  --sh:0 1px 2px rgba(4,55,96,.06),0 12px 30px -14px rgba(4,55,96,.24);
+  --sh-rest:0 1px 2px rgba(4,55,96,.05);
+  --wrap:1120px;
 }
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
-button{font-family:inherit;cursor:pointer}
-:focus-visible{outline:2.5px solid var(--cyan);outline-offset:3px;border-radius:3px}
-.wrap{max-width:820px;margin:0 auto;padding:0 22px}
-.eyebrow{font-family:var(--disp);font-weight:600;font-size:.66rem;letter-spacing:.19em;text-transform:uppercase;color:var(--cyan)}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+button,input,textarea,select{font-family:inherit;font-size:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2.5px solid var(--act);outline-offset:3px;border-radius:3px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
 .mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
-.hidden{display:none !important}
 
-/* ---------- inicio ---------- */
-.intro{min-height:100vh;display:flex;align-items:center;padding:48px 0}
-.intro__logo{width:230px;max-width:60vw;height:auto;display:block;margin-bottom:34px}
-.intro h1{font-family:var(--disp);font-weight:700;font-size:clamp(1.7rem,4.8vw,2.6rem);line-height:1.12;letter-spacing:-.022em;color:var(--navy);margin:.3em 0 0;max-width:20ch}
-.lead{color:var(--muted);font-size:1.02rem;max-width:58ch;margin:18px 0 0}
-.facts{list-style:none;padding:0;margin:30px 0 0;border-top:1px solid var(--line)}
-.facts li{display:flex;gap:16px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);font-size:.93rem}
-.facts b{font-family:var(--mono);font-weight:600;color:var(--teal);font-size:.8rem;min-width:6.2em;letter-spacing:-.02em}
-.note{margin-top:18px;font-size:.8rem;color:var(--muted);max-width:56ch}
+/* ---- marca de sección: la escala con ticks del instrumento ---- */
+.eyebrow{font-family:var(--mono);font-weight:600;font-size:.68rem;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--cyan);margin:0;display:flex;align-items:center;gap:11px}
+.eyebrow::before{content:"";width:34px;height:6px;flex:none;border-radius:1px;
+  background:linear-gradient(90deg,var(--b0) 0 25%,var(--b1) 25% 50%,var(--b2) 50% 75%,var(--b3) 75% 100%)}
+.diag .eyebrow{color:#8ED0DC}
 
-/* ---------- encuadre ---------- */
-.enc{display:grid;gap:15px;grid-template-columns:1fr 1fr;margin-top:26px}
-.enc .full{grid-column:1/-1}
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:60;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(12px);border-bottom:1px solid transparent;transition:border-color .2s}
+.nav.is-stuck{border-bottom-color:var(--line)}
+.nav__in{max-width:var(--wrap);margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:24px}
+.nav__brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto}
+.nav__brand img{width:27px}
+.nav__brand b{font-family:var(--disp);font-weight:800;letter-spacing:.14em;font-size:.85rem;color:var(--navy)}
+.nav__links{display:flex;gap:22px}
+.nav__links a{font-size:.85rem;text-decoration:none;color:var(--muted);padding-bottom:2px;
+  border-bottom:1.5px solid transparent;transition:color .15s,border-color .15s}
+.nav__links a:hover{color:var(--navy);border-bottom-color:var(--act)}
+
+/* ---------- botones ---------- */
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;
+  font-size:.9rem;text-decoration:none;padding:13px 22px;border-radius:6px;
+  border:1.5px solid transparent;transition:background .16s,color .16s,border-color .16s,transform .16s}
+.btn--act{background:var(--act);color:#fff}
+.btn--act:hover{background:var(--act-h);transform:translateY(-1px)}
+.btn--nav{background:var(--navy);color:#fff}
+.btn--nav:hover{background:var(--teal);transform:translateY(-1px)}
+.btn--out{background:transparent;color:var(--navy);border-color:var(--line)}
+.btn--out:hover{border-color:var(--cyan);color:var(--teal)}
+.btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.36)}
+.btn--ghost:hover{border-color:#fff;background:rgba(255,255,255,.09)}
+.btn--sm{padding:9px 15px;font-size:.79rem}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
+.btn__free{font-family:var(--mono);font-size:.64rem;letter-spacing:.09em;text-transform:uppercase;
+  background:rgba(255,255,255,.2);padding:2px 7px;border-radius:3px}
+
+/* ---------- hero ---------- */
+.hero{padding:60px 0 76px}
+.hero__grid{display:grid;grid-template-columns:1.06fr .94fr;gap:56px;align-items:center}
+.hero__logo{width:206px;margin-bottom:28px}
+.hero h1{font-family:var(--disp);font-weight:800;font-size:clamp(2rem,4.7vw,3.15rem);
+  line-height:1.06;letter-spacing:-.03em;color:var(--navy);margin:.32em 0 0;max-width:15ch}
+.hero h1 em{font-style:normal;color:var(--act)}
+.hero__lead{color:var(--muted);font-size:1.07rem;max-width:47ch;margin:20px 0 0}
+.hero__cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:30px}
+.hero__note{font-family:var(--mono);font-size:.68rem;letter-spacing:.05em;color:var(--muted);
+  margin:18px 0 0;text-transform:uppercase}
+
+/* ---------- tablero: elemento firma ---------- */
+.board{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:23px 24px 19px;box-shadow:var(--sh)}
+.board__head{display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:12px;border-bottom:1.5px solid var(--navy);margin-bottom:4px}
+.board__head h2{font-family:var(--disp);font-size:.8rem;font-weight:700;letter-spacing:.04em;
+  color:var(--navy);margin:0;text-transform:uppercase}
+.board__head span{font-family:var(--mono);font-size:.62rem;letter-spacing:.09em;
+  color:var(--muted);text-transform:uppercase}
+.row{display:grid;grid-template-columns:1fr 42px;gap:11px;align-items:center;
+  padding:8px 0 9px;border-bottom:1px solid var(--line)}
+.row:last-of-type{border-bottom:none}
+.row__name{font-size:.79rem;line-height:1.3}
+.row__w{font-family:var(--mono);font-size:.67rem;font-weight:600;color:var(--cyan);
+  text-align:right;letter-spacing:-.02em}
+.row__track{grid-column:1/-1;height:6px;background:#E4EBEF;border-radius:3px;
+  position:relative;margin-top:-3px;overflow:hidden}
+.row__track i{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.85);z-index:2}
+.row__fill{display:block;height:100%;width:0;border-radius:3px;
+  transition:width 1.1s cubic-bezier(.22,.9,.28,1)}
+.board__foot{margin:13px 0 0;font-family:var(--mono);font-size:.61rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);line-height:1.75}
+
+/* ---------- secciones ---------- */
+.sec{padding:76px 0;border-top:1px solid var(--line)}
+.sec__head{max-width:64ch;margin-bottom:36px}
+.sec__head h2{font-family:var(--disp);font-weight:800;font-size:clamp(1.45rem,3vw,2.05rem);
+  line-height:1.14;letter-spacing:-.025em;color:var(--navy);margin:.36em 0 0}
+.sec__head p{color:var(--muted);margin:14px 0 0;font-size:1rem}
+
+/* ---------- escalera de diagnósticos ---------- */
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
+.dg{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:24px 24px 26px;
+  box-shadow:var(--sh-rest);display:flex;flex-direction:column;transition:border-color .16s,box-shadow .16s,transform .16s}
+.dg:hover{border-color:var(--cyan);box-shadow:var(--sh);transform:translateY(-2px)}
+.dg--live{border:2px solid var(--navy)}
+.dg__step{display:flex;align-items:center;gap:9px;font-family:var(--mono);font-size:.64rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.dg__step b{background:var(--navy);color:#fff;width:21px;height:21px;border-radius:50%;
+  display:grid;place-items:center;font-size:.66rem;font-weight:600;flex:none}
+.dg--live .dg__step b{background:var(--act)}
+.dg h3{font-family:var(--disp);font-weight:700;font-size:1.1rem;color:var(--navy);
+  margin:12px 0 8px;letter-spacing:-.012em}
+.dg p{margin:0;font-size:.89rem;color:var(--muted)}
+.dg__meta{display:flex;flex-wrap:wrap;gap:6px;margin:15px 0 0}
+.tag{font-family:var(--mono);font-size:.63rem;letter-spacing:.06em;text-transform:uppercase;
+  border:1px solid var(--line);border-radius:3px;padding:3px 8px;color:var(--teal)}
+.tag--free{border-color:var(--act);color:var(--act);font-weight:600}
+.dg__go{margin-top:auto;padding-top:19px}
+
+/* ---------- servicios ---------- */
+.svcs{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+.svc{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:23px 24px 25px;
+  box-shadow:var(--sh-rest);transition:border-color .16s,box-shadow .16s,transform .16s}
+.svc:hover{border-color:var(--cyan);box-shadow:var(--sh);transform:translateY(-2px)}
+.svc__tag{font-family:var(--mono);font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cyan)}
+.svc h3{font-family:var(--disp);font-weight:700;font-size:1.06rem;color:var(--navy);
+  margin:8px 0 8px;letter-spacing:-.012em}
+.svc p{margin:0;font-size:.89rem;color:var(--muted)}
+.svc ul{margin:13px 0 0;padding:0;list-style:none}
+.svc li{font-size:.83rem;padding:6px 0 6px 16px;position:relative;border-top:1px solid var(--line)}
+.svc li::before{content:"";position:absolute;left:1px;top:14px;width:7px;height:2px;background:var(--cyan)}
+
+/* ---------- panel de indicadores ---------- */
+.kpi{display:grid;grid-template-columns:.95fr 1.05fr;gap:52px;align-items:center}
+.panel{background:var(--ink);border-radius:11px;padding:22px 23px 19px;
+  box-shadow:0 18px 40px -20px rgba(4,55,96,.55)}
+.panel__h{display:flex;justify-content:space-between;align-items:baseline;
+  padding-bottom:13px;border-bottom:1px solid rgba(255,255,255,.16);margin-bottom:17px}
+.panel__h b{font-family:var(--disp);font-size:.79rem;font-weight:700;color:#fff;
+  letter-spacing:.04em;text-transform:uppercase}
+.panel__h span{font-family:var(--mono);font-size:.61rem;letter-spacing:.09em;color:#7E9BAF;text-transform:uppercase}
+.k{padding:11px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+.k:last-of-type{border-bottom:none}
+.k__t{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.k__n{font-family:var(--mono);font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;color:#7E9BAF}
+.k__v{font-family:var(--mono);font-size:1.12rem;font-weight:600;color:#fff;letter-spacing:-.02em}
+.k__v s{text-decoration:none;font-size:.72rem;margin-left:7px;font-weight:500}
+.k__bar{height:5px;background:rgba(255,255,255,.13);border-radius:3px;margin-top:8px;
+  position:relative;overflow:hidden}
+.k__bar i{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.4);z-index:2}
+.k__bar span{display:block;height:100%;width:0;border-radius:3px;
+  transition:width 1s cubic-bezier(.22,.9,.28,1)}
+.panel__f{margin:15px 0 0;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;
+  text-transform:uppercase;color:#6B8598;line-height:1.7}
+
+/* ---------- sección oscura ---------- */
+.diag{background:linear-gradient(175deg,#043760 0%,#0B4A6B 100%);color:#fff;padding:78px 0}
+.diag__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.diag h2{font-family:var(--disp);font-weight:800;font-size:clamp(1.6rem,3.4vw,2.4rem);
+  line-height:1.1;letter-spacing:-.025em;margin:.34em 0 0;max-width:17ch}
+.diag p.lead{color:#BCD3DE;font-size:1.02rem;margin:18px 0 0;max-width:45ch}
+.diag__cta{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}
+.diag__note{font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;
+  color:#7FA3B8;margin:20px 0 0;line-height:1.75}
+.specs{border-top:1.5px solid rgba(255,255,255,.32)}
+.specs div{display:grid;grid-template-columns:5.4em 1fr;gap:16px;align-items:baseline;
+  padding:13px 0;border-bottom:1px solid rgba(255,255,255,.15)}
+.specs b{font-family:var(--mono);font-weight:600;font-size:.76rem;color:#8ED0DC;letter-spacing:-.02em}
+.specs span{font-size:.88rem;color:#DCE8EE}
+
+/* ---------- método ---------- */
+.flow{display:grid;grid-template-columns:repeat(5,1fr);border-top:1.5px solid var(--navy)}
+.stp{padding:19px 19px 25px;border-right:1px solid var(--line)}
+.stp:last-child{border-right:none}
+.stp__n{font-family:var(--mono);font-weight:600;font-size:.71rem;color:var(--cyan);letter-spacing:.06em}
+.stp h3{font-family:var(--disp);font-weight:600;font-size:.96rem;color:var(--navy);
+  margin:9px 0 7px;letter-spacing:-.01em}
+.stp p{margin:0;font-size:.83rem;color:var(--muted);line-height:1.55}
+
+/* ---------- para quién ---------- */
+.who{display:grid;grid-template-columns:repeat(3,1fr);border-top:1.5px solid var(--navy)}
+.who div{padding:19px 21px 22px;border-bottom:1px solid var(--line);border-right:1px solid var(--line)}
+.who div:last-child{border-right:none}
+.who h3{font-family:var(--disp);font-weight:600;font-size:.97rem;color:var(--navy);margin:0 0 6px}
+.who p{margin:0;font-size:.87rem;color:var(--muted)}
+
+/* ---------- socios ---------- */
+.socios{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+.bio{display:grid;grid-template-columns:126px 1fr;gap:22px;align-items:start}
+.bio__ph{aspect-ratio:1;background:var(--surface);border:1px solid var(--line);border-radius:9px;
+  display:grid;place-items:center;padding:19px;overflow:hidden}
+.bio__ph img{width:55px;opacity:.24}
+.bio h3{font-family:var(--disp);font-weight:700;font-size:1.13rem;color:var(--navy);
+  margin:0;letter-spacing:-.015em}
+.bio__role{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--cyan);margin:7px 0 0}
+.bio__txt{color:var(--muted);font-size:.9rem;margin:11px 0 0}
+.bio__li{display:inline-flex;align-items:center;gap:6px;margin-top:11px;font-size:.81rem;
+  color:var(--teal);text-decoration:none;border-bottom:1px solid var(--line);
+  padding-bottom:2px;transition:border-color .15s}
+.bio__li:hover{border-bottom-color:var(--act)}
+
+/* ---------- a completar ---------- */
+.todo{border:1.5px dashed var(--b1);border-radius:8px;background:#FCF7EC;padding:14px 17px;margin:20px 0 0}
+.todo::before{content:"A completar antes de difundir";display:block;font-family:var(--mono);
+  font-size:.61rem;letter-spacing:.11em;text-transform:uppercase;color:var(--b1);margin-bottom:6px}
+.todo p{margin:0;font-size:.87rem;color:#6B5424}
+
+/* ---------- contacto ---------- */
+.contact{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start}
+.form{display:grid;gap:14px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .fld{display:flex;flex-direction:column;gap:6px}
-.fld label{font-family:var(--disp);font-weight:600;font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.fld input,.fld select{font:inherit;font-size:.94rem;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--card);color:var(--ink);width:100%}
-.fld input:focus,.fld select:focus{border-color:var(--cyan);outline:none;box-shadow:0 0 0 3px rgba(47,143,160,.15)}
-.fld .hint{font-size:.74rem;color:var(--muted)}
-.pair{display:grid;grid-template-columns:1fr 130px;gap:8px}
+.fld label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fld input,.fld textarea,.fld select{background:var(--surface);border:1px solid var(--line);
+  border-radius:6px;padding:11px 13px;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.fld input:focus,.fld textarea:focus,.fld select:focus{border-color:var(--cyan);outline:none;background:var(--card);
+  box-shadow:0 0 0 3px rgba(47,143,160,.15)}
+.fld textarea{resize:vertical;min-height:112px}
+.chk{display:flex;gap:10px;align-items:flex-start;font-size:.82rem;color:var(--muted)}
+.chk input{margin-top:3px;accent-color:var(--act);flex:none}
+.msg{font-size:.86rem;margin:0;min-height:1.4em}
+.msg.ok{color:var(--teal)} .msg.err{color:var(--b0)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:21px 22px;
+  box-shadow:var(--sh-rest)}
+.box + .box{margin-top:13px}
+.box h3{font-family:var(--disp);font-weight:700;font-size:1rem;color:var(--navy);margin:0 0 7px}
+.box p{margin:0 0 14px;font-size:.88rem;color:var(--muted)}
+.dl{margin:0;font-size:.9rem}
+.dl div{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.dl div:last-child{border-bottom:none}
+.dl dt{font-family:var(--mono);font-size:.66rem;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--muted);min-width:6.2em;padding-top:3px}
+.dl dd{margin:0}
+.dl a{color:var(--teal);text-underline-offset:3px}
 
-/* ---------- barra ---------- */
-.bar{position:sticky;top:0;z-index:20;background:rgba(241,244,246,.94);backdrop-filter:blur(9px);border-bottom:1px solid var(--line)}
-.bar__in{max-width:820px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:16px}
-.bar__mark{width:82px;height:auto;display:block;flex:none}
-.bar__meta{flex:1;min-width:0}
-.bar__blk{font-family:var(--disp);font-weight:600;font-size:.63rem;letter-spacing:.16em;text-transform:uppercase;color:var(--navy);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.bar__sub{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin-top:2px}
-.pips{display:flex;gap:3px;flex:none}
-.pip{width:12px;height:4px;border-radius:2px;background:var(--line)}
-.pip[data-on]{background:var(--navy)}
-.pip[data-cur]{background:var(--cyan)}
-.track{height:2px;background:var(--line)}
-.track__fill{height:100%;background:var(--navy);width:0;transition:width .3s cubic-bezier(.4,0,.2,1)}
+/* ---------- pie ---------- */
+.foot{background:var(--ink);color:#93A8B7;padding:44px 0 32px;font-size:.84rem}
+.foot__in{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between}
+.foot img{width:148px;opacity:.92}
+.foot nav{display:flex;flex-wrap:wrap;gap:17px}
+.foot a{text-decoration:none;color:#93A8B7;transition:color .15s}
+.foot a:hover{color:#fff}
+.foot__legal{width:100%;margin:25px 0 0;padding-top:18px;
+  border-top:1px solid rgba(255,255,255,.11);font-size:.76rem;color:#6C8194}
 
-/* ---------- preguntas ---------- */
-.q{padding:40px 0 80px;animation:qin .28s cubic-bezier(.2,0,.2,1)}
-@keyframes qin{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.q__code{font-family:var(--mono);font-weight:600;font-size:.76rem;color:#fff;background:var(--teal);padding:2px 8px;border-radius:3px;letter-spacing:.03em}
-.q__flag{font-family:var(--disp);font-size:.62rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--n1);border:1px solid currentColor;padding:2px 7px;border-radius:3px;margin-left:8px}
-.q h2{font-family:var(--disp);font-weight:700;font-size:clamp(1.32rem,4vw,1.9rem);line-height:1.18;letter-spacing:-.02em;color:var(--navy);margin:15px 0 6px}
-.q__hint{color:var(--muted);font-size:.86rem;margin:0 0 24px}
-.opts{display:grid;gap:9px}
-.opt{display:grid;grid-template-columns:36px 1fr;align-items:start;gap:13px;text-align:left;width:100%;background:var(--card);border:1px solid var(--line);border-radius:7px;padding:14px 16px;font-size:.96rem;line-height:1.48;color:var(--ink);transition:border-color .15s,box-shadow .15s,transform .15s}
-.opt:hover{border-color:var(--cyan);transform:translateX(3px)}
-.opt__n{font-family:var(--mono);font-weight:600;font-size:.8rem;width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:var(--muted);border:1px solid var(--line);transition:all .15s}
-.opt:hover .opt__n{border-color:var(--cyan);color:var(--teal)}
-.opt[aria-pressed=true]{border-color:var(--navy);box-shadow:0 0 0 3px rgba(4,55,96,.11)}
-.opt[aria-pressed=true] .opt__n{background:var(--navy);border-color:var(--navy);color:#fff}
-.opt--nd{grid-template-columns:1fr;font-size:.9rem;color:var(--muted);font-style:italic;border-style:dashed}
-.opt--nd[aria-pressed=true]{color:var(--ink);font-style:normal}
-.opt--chk .opt__n{border-radius:4px}
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
 
-/* grilla competitiva */
-.grid{display:grid;gap:8px}
-.grow{display:grid;grid-template-columns:1fr 210px;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:7px;padding:12px 15px}
-.grow__v{font-size:.94rem;font-weight:500}
-.seg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px}
-.seg button{border:1px solid var(--line);background:var(--paper);border-radius:5px;padding:7px 4px;font-family:var(--disp);font-weight:600;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.seg button[aria-pressed=true]{background:var(--navy);border-color:var(--navy);color:#fff}
-.seg button[data-v=peor][aria-pressed=true]{background:var(--n0);border-color:var(--n0)}
-.seg button[data-v=mejor][aria-pressed=true]{background:var(--n3);border-color:var(--n3)}
-
-.nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:12px}
-.back{background:none;border:none;color:var(--muted);font-size:.87rem;padding:8px 0;display:inline-flex;align-items:center;gap:7px}
-.back:hover{color:var(--navy)}
-.next{background:var(--navy);color:#fff;border:none;border-radius:6px;font-family:var(--disp);font-weight:600;font-size:.92rem;padding:12px 22px;box-shadow:var(--sh)}
-.next:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
-.keys{font-family:var(--mono);font-size:.71rem;color:var(--muted)}
-.keys kbd{background:var(--card);border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;padding:1px 5px;font-family:inherit;font-size:.67rem}
-
-.cta{margin-top:28px;display:inline-flex;align-items:center;gap:12px;background:var(--navy);color:#fff;border:none;border-radius:6px;font-family:var(--disp);font-weight:600;font-size:1rem;padding:15px 26px;box-shadow:var(--sh);transition:background .18s,transform .18s}
-.cta:hover{background:#052c4c;transform:translateY(-1px)}
-.cta:disabled{opacity:.4;cursor:not-allowed;transform:none}
-.btn{border:1px solid var(--navy);background:var(--card);color:var(--navy);border-radius:6px;padding:11px 19px;font-family:var(--disp);font-weight:600;font-size:.87rem;transition:all .16s}
-.btn:hover{background:var(--navy);color:#fff}
-.btn--ghost{border-color:var(--line);color:var(--muted)}
-.btn--ghost:hover{background:var(--paper);color:var(--navy);border-color:var(--muted)}
-.btn:disabled{opacity:.42;cursor:not-allowed}
-.btn:disabled:hover{background:var(--card);color:var(--navy)}
-
-/* aviso de retomado */
-.resume{background:#FDF8EF;border:1px solid #EBD9B4;border-left:3px solid var(--n1);border-radius:6px;padding:14px 17px;margin-top:22px}
-.resume p{margin:0 0 10px;font-size:.9rem;color:#4A3D22}
-.resume .row{display:flex;gap:9px;flex-wrap:wrap}
+@media(max-width:960px){
+  .hero__grid,.diag__grid,.contact,.kpi,.socios{grid-template-columns:1fr;gap:38px}
+  .hero h1{max-width:20ch}
+  .flow{grid-template-columns:1fr 1fr}
+  .stp{border-bottom:1px solid var(--line)}
+  .stp:nth-child(2n){border-right:none}
+  .who{grid-template-columns:1fr}
+  .who div{border-right:none}
+  .steps3{grid-template-columns:1fr}
+  .nav__links{display:none}
+}
+@media(max-width:640px){
+  .svcs{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .stp{border-right:none}
+  .f2{grid-template-columns:1fr}
+  .bio{grid-template-columns:1fr;gap:16px}
+  .bio__ph{max-width:116px}
+  .sec,.diag{padding:56px 0}
+  .hero{padding:40px 0 54px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
-<style>
-/* ---------- resultados ---------- */
-.res{padding:0 0 60px}
-.res__hero{background:var(--navy);color:#fff;padding:42px 0 38px;margin-bottom:42px;background-image:radial-gradient(circle at 82% -10%,rgba(47,143,160,.34),transparent 58%)}
-.res__hero .eyebrow{color:rgba(255,255,255,.55)}
-.res__hero h1{font-family:var(--disp);font-weight:700;font-size:clamp(1.45rem,4.2vw,2.05rem);letter-spacing:-.02em;margin:.3em 0 0;line-height:1.15}
-.res__sub{color:rgba(255,255,255,.62);font-size:.86rem;margin:8px 0 0}
-.gauge{display:flex;align-items:center;gap:clamp(20px,5vw,44px);margin-top:32px;flex-wrap:wrap}
-.gauge__n{font-family:var(--disp);font-weight:700;font-size:clamp(3rem,11vw,4.4rem);line-height:.9;letter-spacing:-.045em;font-variant-numeric:tabular-nums}
-.gauge__of{font-family:var(--mono);font-size:.66rem;color:rgba(255,255,255,.5);letter-spacing:.1em;margin-top:6px}
-.gauge__lvl{flex:1;min-width:200px}
-.gauge__lvlname{font-family:var(--disp);font-weight:700;font-size:clamp(1.3rem,4vw,1.8rem);letter-spacing:-.02em;line-height:1.1}
-.gauge__lvldesc{color:rgba(255,255,255,.68);font-size:.92rem;margin-top:8px;max-width:36ch}
-h3.sect{font-family:var(--disp);font-weight:700;font-size:1.14rem;color:var(--navy);letter-spacing:-.012em;margin:0 0 4px;padding-top:8px}
-.sect__note{color:var(--muted);font-size:.85rem;margin:0 0 20px;max-width:64ch}
-.block{margin-bottom:46px}
-.areas{display:grid;gap:2px}
-.arow{display:grid;grid-template-columns:1fr 104px;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
-.arow__top{display:flex;align-items:baseline;gap:9px;margin-bottom:7px;flex-wrap:wrap}
-.arow__name{font-weight:600;font-size:.94rem}
-.arow__w{font-family:var(--mono);font-size:.67rem;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:0 5px;white-space:nowrap}
-.arow__bar{position:relative;height:9px;background:var(--paper);border-radius:4px;box-shadow:inset 0 0 0 1px var(--line)}
-.arow__bar .tick{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--line);z-index:1}
-.arow__fill{position:relative;z-index:2;height:100%;border-radius:4px;width:0;transition:width .8s cubic-bezier(.3,0,.2,1)}
-.arow__num{text-align:right;line-height:1.1}
-.arow__num b{display:block;font-family:var(--disp);font-weight:700;font-size:1.38rem;font-variant-numeric:tabular-nums;letter-spacing:-.035em}
-.arow__num span{font-family:var(--disp);font-weight:600;font-size:.55rem;letter-spacing:.11em;text-transform:uppercase;opacity:.85}
 
-/* FODA 2x2 */
-.foda{display:grid;grid-template-columns:1fr 1fr;gap:11px}
-.fq{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:17px 19px;box-shadow:var(--sh)}
-.fq h4{font-family:var(--disp);font-weight:700;font-size:.95rem;margin:0 0 3px;letter-spacing:-.01em}
-.fq .src{font-family:var(--mono);font-size:.66rem;color:var(--muted);letter-spacing:.02em;display:block;margin-bottom:11px}
-.fq ul{margin:0;padding-left:17px}
-.fq li{font-size:.89rem;line-height:1.5;margin-bottom:7px}
-.fq li:last-child{margin-bottom:0}
-.fq--F{border-top:3px solid var(--n3)} .fq--F h4{color:var(--n3)}
-.fq--D{border-top:3px solid var(--n0)} .fq--D h4{color:var(--n0)}
-.fq--O{border-top:3px solid var(--n2)} .fq--O h4{color:var(--n2)}
-.fq--A{border-top:3px solid var(--n1)} .fq--A h4{color:#8A6420}
-.fq .none{font-size:.86rem;color:var(--muted);font-style:italic;margin:0}
-.foda__axis{display:flex;align-items:center;gap:9px;margin:0 0 9px;font-family:var(--disp);font-weight:600;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
-.foda__axis:before{content:"";height:1px;background:var(--line);flex:1;order:2}
+<header class="nav" id="nav">
+  <div class="nav__in">
+    <a class="nav__brand" href="#top"><img src="/logomark.png" alt=""><b>CRITERYA</b></a>
+    <nav class="nav__links">
+      <a href="#diagnosticos">Diagnósticos</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#indicadores">Indicadores</a>
+      <a href="#metodo">Método</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="btn btn--act btn--sm" href="#diagnosticos">Autodiagnóstico gratis</a>
+  </div>
+</header>
 
-/* problematica y recomendaciones */
-.prob{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--n0);border-radius:6px;padding:15px 18px;margin-bottom:9px}
-.prob__t{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;margin-bottom:6px}
-.prob__r{font-family:var(--disp);font-weight:700;font-size:1.05rem;color:var(--n0);line-height:1}
-.prob__q{font-weight:600;font-size:.93rem;color:var(--navy)}
-.prob__a{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
-.prob p{margin:0;font-size:.89rem;color:var(--ink)}
-.act{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 20px;margin-bottom:10px;box-shadow:var(--sh);display:grid;grid-template-columns:28px 1fr;gap:15px}
-.act__rank{font-family:var(--disp);font-weight:700;font-size:1.28rem;color:var(--cyan);line-height:1;letter-spacing:-.04em}
-.act__top{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:8px}
-.act__code{font-family:var(--mono);font-weight:600;font-size:.68rem;color:#fff;background:var(--teal);padding:2px 7px;border-radius:3px}
-.act__q{font-weight:600;font-size:.93rem;color:var(--navy)}
-.act__ans{font-size:.79rem;color:var(--muted);margin:0 0 10px;padding-left:11px;border-left:2px solid var(--line);font-style:italic}
-.act__do{margin:0 0 13px;font-size:.93rem;line-height:1.55}
-.act__meta{display:flex;flex-wrap:wrap;gap:0 22px;padding-top:11px;border-top:1px solid var(--line)}
-.act__meta div{font-size:.77rem}
-.act__meta dt{font-family:var(--disp);font-weight:600;font-size:.59rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:1px}
-.act__meta dd{margin:0;font-weight:500;text-transform:capitalize}
-.warn{background:#FDF8EF;border:1px solid #EBD9B4;border-left:3px solid var(--n1);border-radius:6px;padding:14px 17px;margin-bottom:10px}
-.warn__h{font-family:var(--disp);font-weight:600;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#8A6420;margin-bottom:5px}
-.warn p{margin:0;font-size:.9rem;color:#4A3D22}
-.send{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:23px 25px;box-shadow:var(--sh)}
-.send--dl{border:2px solid var(--navy);border-radius:8px}
-.send__grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 14px}
-.send__grid .full{grid-column:1/-1}
-.fld2{display:flex;flex-direction:column;gap:6px}
-.fld2 label{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.fld2 input{font:inherit;font-size:.94rem;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--paper)}
-.fld2 input:focus{border-color:var(--cyan);outline:none;background:var(--card);box-shadow:0 0 0 3px rgba(47,143,160,.15)}
-.btn--big{padding:14px 26px;font-size:.95rem;background:var(--navy);color:#fff}
-.btn--big:hover:not([disabled]){background:var(--teal)}
-.btn--big[disabled]{opacity:.42;cursor:not-allowed}
-@media(max-width:560px){.send__grid{grid-template-columns:1fr}}
-.send .sect{padding-top:0}
-.send__row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
-.send__row input{flex:1;min-width:210px;font:inherit;font-size:.94rem;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--paper)}
-.send__row input:focus{border-color:var(--cyan);outline:none;background:var(--card);box-shadow:0 0 0 3px rgba(47,143,160,.15)}
-.send__ok{display:flex;gap:11px;align-items:flex-start;font-size:.82rem;color:var(--muted);line-height:1.55;cursor:pointer}
-.send__ok input{margin-top:3px;flex:none;width:16px;height:16px;accent-color:var(--navy)}
-.send__msg{font-size:.84rem;margin-top:12px}
-.send__msg--err{color:var(--n0)}
-.actions{display:flex;gap:11px;flex-wrap:wrap;margin-top:8px}
-.foot{border-top:1px solid var(--line);margin-top:16px;padding:30px 0 0;display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap}
-.foot img{width:140px;height:auto;flex:none;opacity:.9}
-.foot p{margin:0;font-size:.77rem;color:var(--muted);max-width:54ch;line-height:1.6}
-@media (max-width:680px){
-  .enc{grid-template-columns:1fr}
-  .foda{grid-template-columns:1fr}
-  .grow{grid-template-columns:1fr;gap:9px}
-  .opt{grid-template-columns:30px 1fr;gap:11px;padding:13px 14px;font-size:.92rem}
-  .keys{display:none}
-  .arow{grid-template-columns:1fr 74px;gap:11px}
-  .act{grid-template-columns:1fr;gap:8px}
-}
-@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
-@media print{
-  @page{margin:14mm}
-  body{background:#fff;font-size:10.5pt}
-  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
-  .bar,.actions,.keys,.nav,.send,.send--dl{display:none !important}
-  .res__hero{background:#fff !important;color:var(--ink);padding:0 0 20px;border-bottom:3px solid var(--navy);margin-bottom:26px}
-  .res__hero .eyebrow{color:var(--cyan)} .res__sub,.gauge__of,.gauge__lvldesc{color:var(--muted)}
-  .act,.prob,.fq,.block{break-inside:avoid;box-shadow:none}
-  .wrap{max-width:none;padding:0}
-}
-</style>
+<main id="top">
 
-<!-- ============ INICIO ============ -->
-<section id="intro" class="intro"><div class="wrap">
-  <img class="intro__logo" src="/logo.png" alt="Criterya · Consultora de gestión empresarial">
-  <div class="eyebrow">Diagnóstico integral · Distribuidora</div>
-  <h1>Un relevamiento completo de la gestión, en poco menos de media hora</h1>
-  <p class="lead">Sesenta y siete preguntas sobre mercado, competencia y todas las áreas de la empresa.
-  Cada nivel describe una práctica concreta: elija la que refleja cómo se trabaja hoy, no la que debería ser.</p>
-  <ul class="facts">
-    <li><b>22–28 min</b><span>Agrupadas por bloque. Puede cerrar y retomar donde quedó.</span></li>
-    <li><b>9 áreas</b><span>Cada una pesa distinto según su incidencia en una distribuidora.</span></li>
-    <li><b>FODA</b><span>Con problemática priorizada y recomendaciones con responsable y plazo.</span></li>
-    <li><b>Revisión</b><span>El resultado automático ordena prioridades; la lectura final la hace el consultor.</span></li>
-  </ul>
-
-  <h3 class="sect" style="margin-top:34px">Encuadre de la empresa</h3>
-  <p class="sect__note">Doce datos de contexto. No puntúan: sirven para interpretar el resto y calcular los ratios.</p>
-  <div class="enc" id="enc"></div>
-
-  <div id="resume-box"></div>
-
-  <button id="start" class="cta" type="button">
-    Comenzar el diagnóstico
-    <svg width="17" height="11" viewBox="0 0 17 11" fill="none" aria-hidden="true"><path d="M1 5.5h14M11 1l4.5 4.5L11 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-  </button>
-  <p class="note">El diagnóstico se procesa en este dispositivo y se guarda solo en su navegador.
-  Al terminar podrá descargar el informe completo en PDF. Nada se envía sin su confirmación.</p>
-</div></section>
-
-<!-- ============ CUESTIONARIO ============ -->
-<div id="quiz" class="hidden">
-  <div class="bar"><div class="bar__in">
-    <img class="bar__mark" src="/logo.png" alt="Criterya">
-    <div class="bar__meta">
-      <div class="bar__blk" id="q-blk"></div>
-      <div class="bar__sub mono" id="q-sub"></div>
-    </div>
-    <div class="pips" id="q-pips"></div>
-  </div><div class="track"><div class="track__fill" id="q-track"></div></div></div>
-  <div class="wrap"><div class="q" id="q-body"></div></div>
-</div>
-
-<!-- ============ RESULTADOS ============ -->
-<div id="res" class="res hidden"></div>
-<script src="/data.js"></script>
-<script>
-/* ====== configuracion ====== */
-const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDIp4cx8UxllSvsoCt25Yj0zo7B0mICQkMFUWfMw9X5psxv7IBi8dt3JVSqiWKp8TrBA/exec";
-const LS_KEY   = "criterya_integral_v2";
-const TOPE_AREA = 0;            /* 0 = sin tope; 2 = maximo 2 acciones por area */
-const UMBRALES = [30,55,78];    /* provisorios: heredados del express, a recalibrar */
-const NIVELES = [
-  {max:30, nombre:"Inicial",       desc:"La gestión depende de las personas, no del sistema", id:"n0"},
-  {max:55, nombre:"En desarrollo", desc:"Hay herramientas, falta consistencia",               id:"n1"},
-  {max:78, nombre:"Gestionado",    desc:"Se mide y se decide con datos",                      id:"n2"},
-  {max:100,nombre:"Optimizado",    desc:"Mejora continua",                                    id:"n3"}
-];
-const ORDEN_BLOQUES = ["1","2","3","4","5","6","7","8","9","M","F"];
-const NOMBRE_M = "Mercado y contexto";
-const NOMBRE_F = "Empresa familiar";
-
-/* ====== encuadre ====== */
-const ENC = [
- {id:"E1", lab:"Año de fundación", tipo:"num", ph:"1998"},
- {id:"E2", lab:"Generación que conduce hoy", tipo:"sel", op:["Primera","Segunda","Tercera o posterior","No es empresa familiar"]},
- {id:"E3", lab:"Forma jurídica", tipo:"sel", op:["Unipersonal","SRL","SA","SAS","Otra"]},
- {id:"E4", lab:"Ciudad de la casa central", tipo:"txt", ph:""},
- {id:"E5", lab:"Cantidad de sucursales", tipo:"sel", op:["Ninguna","1","2 a 3","4 o más"]},
- {id:"E6", lab:"Empleados en relación de dependencia", tipo:"num", ph:"12"},
- {id:"E7", lab:"Familiares trabajando en la empresa", tipo:"sel", op:["Ninguno","1","2 a 3","4 o más"]},
- {id:"E8", lab:"Actividad principal", tipo:"sel", op:["Venta a instaladores","Venta a obra y empresas","Venta a público","Venta a otros comercios","Mixta sin predominio"]},
- {id:"E9", lab:"Segunda actividad relevante", tipo:"sel", op:["Ninguna","Venta a instaladores","Venta a obra y empresas","Venta a público","Venta a otros comercios"]},
- {id:"E10",lab:"Facturación mensual promedio", tipo:"fact", hint:"Monto en pesos y mes al que corresponde. Se guarda con el mes para poder deflactarlo después."},
- {id:"E11",lab:"¿Conoce su punto de equilibrio mensual?", tipo:"sel", op:["Lo tengo calculado y actualizado","Lo tengo pero desactualizado","Lo estimo","No lo tengo"], full:true},
- {id:"E12",lab:"Antigüedad promedio del personal", tipo:"sel", op:["Menos de 2 años","2 a 5 años","5 a 10 años","Más de 10 años"]}
-];
-
-/* ====== estado ====== */
-const R = {enc:{}, resp:{}, grilla:{}, mult:{}, idx:0};
-const $ = s => document.querySelector(s);
-const esc = s => String(s==null?"":s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const nivelColor = n => ["var(--n0)","var(--n1)","var(--n2)","var(--n3)"][n];
-const bandaDe = p => NIVELES.find(n => p <= n.max) || NIVELES[3];
-const esFamiliar = () => R.enc.E2 && R.enc.E2 !== "No es empresa familiar";
-
-/* ====== secuencia de preguntas ====== */
-function secuencia(){
-  const out=[];
-  ORDEN_BLOQUES.forEach(b=>{
-    if(b==="F" && !esFamiliar()) return;
-    if(b==="M"){ D.me.forEach(m=> out.push({tipo:m.m?"mult":"merc", b:"M", q:m})); return; }
-    D.pr.filter(q=>q.b===b).forEach(q=>{
-      out.push({tipo:"esc", b:b, q:q});
-      if(b==="2" && q.c==="23") out.push({tipo:"grilla", b:"2", q:{c:"24", ti:"Posición frente al principal competidor"}});
-    });
-  });
-  return out;
-}
-let SEQ = [];
-const nomBloque = b => b==="M" ? NOMBRE_M : b==="F" ? NOMBRE_F : (D.bl[b]?D.bl[b].n:b);
-
-/* ====== persistencia ====== */
-function guardar(){
-  try{ localStorage.setItem(LS_KEY, JSON.stringify({enc:R.enc,resp:R.resp,grilla:R.grilla,mult:R.mult,idx:R.idx,ts:Date.now()})); }catch(e){}
-}
-function leerGuardado(){
-  try{ const s=localStorage.getItem(LS_KEY); return s?JSON.parse(s):null; }catch(e){ return null; }
-}
-function borrarGuardado(){ try{ localStorage.removeItem(LS_KEY); }catch(e){} }
-
-/* ====== encuadre: render ====== */
-function pintarEncuadre(){
-  $("#enc").innerHTML = ENC.map(f=>{
-    const cls = f.full||f.tipo==="fact" ? ' full' : '';
-    let ctrl;
-    if(f.tipo==="sel") ctrl = `<select id="f-${f.id}"><option value="">Elegir…</option>${f.op.map(o=>`<option>${esc(o)}</option>`).join("")}</select>`;
-    else if(f.tipo==="num") ctrl = `<input id="f-${f.id}" type="number" inputmode="numeric" placeholder="${esc(f.ph||"")}">`;
-    else if(f.tipo==="fact") ctrl = `<div class="pair"><input id="f-${f.id}" type="number" inputmode="numeric" placeholder="Monto en pesos"><input id="f-${f.id}m" type="month"></div>`;
-    else ctrl = `<input id="f-${f.id}" type="text" placeholder="${esc(f.ph||"")}">`;
-    return `<div class="fld${cls}"><label for="f-${f.id}">${esc(f.lab)}</label>${ctrl}${f.hint?`<span class="hint">${esc(f.hint)}</span>`:""}</div>`;
-  }).join("");
-  ENC.forEach(f=>{
-    const el=$("#f-"+f.id); if(!el) return;
-    el.onchange = el.oninput = ()=>{ R.enc[f.id]=el.value; if(f.id==="E2") SEQ=secuencia(); guardar(); revisarInicio(); };
-    const m=$("#f-"+f.id+"m"); if(m) m.onchange=()=>{ R.enc.E10mes=m.value; guardar(); };
-  });
-}
-function revisarInicio(){ $("#start").disabled = !R.enc.E2; }
-
-/* ====== navegacion ====== */
-function irA(i){
-  R.idx = Math.max(0, Math.min(SEQ.length-1, i));
-  const it = SEQ[R.idx];
-  const delBloque = SEQ.filter(s=>s.b===it.b);
-  const pos = delBloque.indexOf(it);
-  $("#q-blk").textContent = nomBloque(it.b);
-  $("#q-sub").textContent = `${String(pos+1).padStart(2,"0")} / ${String(delBloque.length).padStart(2,"0")} · ${String(R.idx+1).padStart(2,"0")} de ${SEQ.length} en total`;
-  $("#q-pips").innerHTML = delBloque.map((s,k)=>`<i class="pip"${k<pos?" data-on":""}${k===pos?" data-cur":""}></i>`).join("");
-  $("#q-track").style.width = (R.idx/SEQ.length*100)+"%";
-  const R_ = {esc:pintarEscala, merc:pintarEscala, grilla:pintarGrilla, mult:pintarMultiple}[it.tipo];
-  R_(it);
-  window.scrollTo({top:0,behavior:"instant"});
-  guardar();
-}
-function navHTML(puedeSeguir, textoSiguiente){
-  return `<div class="nav">
-    <button class="back" type="button" id="prev" ${R.idx===0?"style=visibility:hidden":""}>
-      <svg width="15" height="10" viewBox="0 0 15 10" fill="none" aria-hidden="true"><path d="M14 5H1M5 1L.5 5 5 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Anterior
-    </button>
-    <div style="display:flex;align-items:center;gap:14px">
-      <span class="keys">Teclas <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd></span>
-      <button class="next" type="button" id="next" ${puedeSeguir?"":"disabled"}>${textoSiguiente}</button>
-    </div>
-  </div>`;
-}
-function cabezal(cod, titulo, nd){
-  return `<div><span class="q__code">${esc(cod)}</span>${nd?'<span class="q__flag">pregunta de dato</span>':""}</div><h2>${esc(titulo)}</h2>`;
-}
-function avanzar(){ if(R.idx===SEQ.length-1) resultados(); else irA(R.idx+1); }
-function cablearNav(){
-  const p=$("#prev"); if(p) p.onclick=()=>irA(R.idx-1);
-  const n=$("#next"); if(n) n.onclick=avanzar;
-}
-
-/* --- pregunta de escala (incluye bloque M ordenado) --- */
-function pintarEscala(it){
-  const q=it.q, sel=R.resp[q.c];
-  const ultima = R.idx===SEQ.length-1;
-  $("#q-body").innerHTML = cabezal(q.c, q.ti, q.nd) +
-    `<p class="q__hint">Elija la opción que describe la situación actual.</p><div class="opts" id="opts">` +
-    q.o.map(o=>`<button class="opt" type="button" data-n="${o.n}" aria-pressed="${sel===o.n}">
-        <span class="opt__n">${o.n}</span><span>${esc(o.t)}</span></button>`).join("") +
-    (q.nd?`<button class="opt opt--nd" type="button" data-n="-1" aria-pressed="${sel===-1}">No lo tengo medido</button>`:"") +
-    `</div>` + navHTML(sel!==undefined, ultima?"Ver resultado":"Siguiente");
-  $("#opts").querySelectorAll(".opt").forEach(b=> b.onclick=()=>{
-    R.resp[q.c]=+b.dataset.n; guardar();
-    $("#opts").querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed", x===b));
-    $("#next").disabled=false;
-    const w = matchMedia("(prefers-reduced-motion:reduce)").matches?0:200;
-    setTimeout(avanzar, w);
-  });
-  cablearNav();
-}
-
-/* --- grilla competitiva (24) --- */
-function pintarGrilla(it){
-  const vals=["mejor","igual","peor"];
-  const completa = ()=> D.gr.every(g=>R.grilla[g.variable]);
-  $("#q-body").innerHTML = cabezal("24","Posición frente al principal competidor",false) +
-    `<p class="q__hint">Para cada variable, ubique a su empresa frente al competidor que considera principal.</p><div class="grid" id="grid">` +
-    D.gr.map((g,i)=>`<div class="grow"><div class="grow__v">${esc(g.variable)}</div>
-      <div class="seg" data-v="${i}">${vals.map(v=>`<button type="button" data-val="${v}" data-var="${i}" aria-pressed="${R.grilla[g.variable]===v}">${v}</button>`).join("")}</div></div>`).join("") +
-    `</div>` + navHTML(completa(), "Siguiente");
-  $("#grid").querySelectorAll("button").forEach(b=> b.onclick=()=>{
-    const g=D.gr[+b.dataset.var];
-    R.grilla[g.variable]=b.dataset.val; guardar();
-    b.parentNode.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed", x===b));
-    $("#next").disabled = !completa();
-  });
-  cablearNav();
-}
-
-/* --- respuesta multiple (M3, M5) con opcion excluyente --- */
-function pintarMultiple(it){
-  const q=it.q; if(!R.mult[q.c]) R.mult[q.c]=[];
-  const marcadas=()=>R.mult[q.c];
-  $("#q-body").innerHTML = cabezal(q.c, q.ti, false) +
-    `<p class="q__hint">Puede marcar más de una opción.</p><div class="opts" id="opts">` +
-    q.o.map((o,i)=>`<button class="opt opt--chk" type="button" data-i="${i}" aria-pressed="${marcadas().indexOf(i)>=0}">
-        <span class="opt__n">${marcadas().indexOf(i)>=0?"✓":""}</span><span>${esc(o.t)}</span></button>`).join("") +
-    `</div>` + navHTML(marcadas().length>0, "Siguiente");
-  $("#opts").querySelectorAll(".opt").forEach(b=> b.onclick=()=>{
-    const i=+b.dataset.i, o=q.o[i], arr=R.mult[q.c];
-    const pos=arr.indexOf(i);
-    if(pos>=0) arr.splice(pos,1);
-    else{
-      if(o.x) R.mult[q.c]=[i];                                   /* excluyente: limpia el resto */
-      else { const sinExcl=arr.filter(k=>!q.o[k].x); sinExcl.push(i); R.mult[q.c]=sinExcl; }
-    }
-    guardar(); pintarMultiple(it);
-  });
-  cablearNav();
-}
-
-document.addEventListener("keydown", e=>{
-  if($("#quiz").classList.contains("hidden")) return;
-  const it=SEQ[R.idx];
-  if(it && (it.tipo==="esc"||it.tipo==="merc") && ["1","2","3","4"].includes(e.key)){
-    const b=$("#opts").querySelector('.opt[data-n="'+(+e.key-1)+'"]'); if(b) b.click();
-  }
-  if(e.key==="ArrowLeft") irA(R.idx-1);
-  if(e.key==="ArrowRight" && !$("#next").disabled) avanzar();
-});
-
-/* ====== calculo ====== */
-const VAL_GRILLA = {mejor:3, igual:2, peor:0};
-
-function nivel24(){
-  const v = D.gr.map(g=>VAL_GRILLA[R.grilla[g.variable]]).filter(x=>x!==undefined);
-  return v.length ? v.reduce((a,b)=>a+b,0)/v.length : 0;
-}
-function nivelDe(cod){
-  if(cod==="24") return nivel24();
-  const n = R.resp[cod];
-  return n===undefined ? 0 : (n===-1 ? 0 : n);      /* "No lo tengo medido" puntua 0 */
-}
-function calcular(){
-  const areas = Object.keys(D.bl).filter(b=>b!=="F").map(b=>{
-    const qs = D.pr.filter(q=>q.b===b).map(q=>q.c);
-    if(b==="2") qs.push("24");
-    const suma = qs.reduce((s,c)=>s+nivelDe(c),0);
-    const pts = Math.round(suma/(3*qs.length)*100);
-    return {id:b, nombre:D.bl[b].n, peso:D.bl[b].w, preg:qs, pts:pts, banda:bandaDe(pts)};
-  });
-  const global = Math.round(areas.reduce((s,a)=>s+a.pts*a.peso/100,0));
-
-  /* sub-indice familiar: no integra el global */
-  let familiar = null;
-  if(esFamiliar()){
-    const qs = D.pr.filter(q=>q.b==="F").map(q=>q.c);
-    const resp = qs.filter(c=>R.resp[c]!==undefined);
-    if(resp.length) familiar = Math.round(resp.reduce((s,c)=>s+nivelDe(c),0)/(3*resp.length)*100);
-  }
-
-  /* datos no medidos: se informan aparte, no disparan Debilidad */
-  const noMedidos = D.pr.filter(q=>q.nd && R.resp[q.c]===-1)
-                        .map(q=>({cod:q.c, titulo:q.ti, area:D.bl[q.b]?D.bl[q.b].n:q.b}));
-
-  /* ---- FODA ---- */
-  const pesoDe = b => D.bl[b] ? D.bl[b].w : 0;
-  const F=[], Dd=[], O=[], A=[];
-  D.pr.forEach(q=>{
-    if(q.b==="F") return;                             /* el modulo familiar no entra al FODA del informe */
-    const n = R.resp[q.c];
-    if(n===undefined || n===-1) return;               /* sin responder o no medido: no genera frase */
-    const op = q.o.find(o=>o.n===n);
-    if(!op || !op.f) return;
-    if(op.ft==="F") F.push({t:op.f, w:pesoDe(q.b), cod:q.c});
-    if(op.ft==="D") Dd.push({t:op.f, w:pesoDe(q.b), cod:q.c, area:q.b, nivel:n});
-  });
-  D.gr.forEach(g=>{
-    const v=R.grilla[g.variable];
-    if(v==="mejor") F.push({t:g.F, w:pesoDe("2"), cod:"24"});
-    if(v==="peor")  Dd.push({t:g.D, w:pesoDe("2"), cod:"24", area:"2", nivel:0, variable:g.variable});
-  });
-  D.me.forEach(m=>{
-    if(m.m){                                          /* multiple: tope de 2 por severidad */
-      const marcadas=(R.mult[m.c]||[]).filter(i=>m.o[i] && m.o[i].f);
-      const orden=(D.sev[m.c]||[]).filter(i=>marcadas.indexOf(i)>=0);
-      const resto=marcadas.filter(i=>orden.indexOf(i)<0);
-      [...orden,...resto].slice(0,2).forEach(i=>{
-        const o=m.o[i];
-        (o.ft==="O"?O:A).push({t:o.f, w:50, cod:m.c});
-      });
-    }else{
-      const n=R.resp[m.c]; if(n===undefined) return;
-      const o=m.o.find(x=>x.n===n);
-      if(o && o.f) (o.ft==="O"?O:A).push({t:o.f, w:50, cod:m.c});
-    }
-  });
-  const top = arr => arr.sort((a,b)=>b.w-a.w).slice(0,6);
-
-  /* ---- problematica priorizada: debilidades por peso x brecha ---- */
-  const prob = Dd.map(d=>({...d, prio: d.w*(3-d.nivel)}))
-                 .sort((a,b)=>b.prio-a.prio).slice(0,5);
-
-  /* ---- recomendaciones ---- */
-  const cand=[];
-  D.pr.forEach(q=>{
-    if(q.b==="F") return;
-    const n=nivelDe(q.c);
-    if(n>2) return;
-    const f=D.fi[q.c+"-"+Math.floor(n)];
-    if(!f) return;
-    const resp=R.resp[q.c];
-    const opTxt = resp===-1 ? "No lo tengo medido" : (q.o.find(o=>o.n===resp)||{}).t;
-    cand.push({...f, cod:q.c, titulo:q.ti, area:q.b, areaN:D.bl[q.b].n, nivel:Math.floor(n),
-               eco:opTxt, prio: pesoDe(q.b)*(3-n)});
-  });
-  D.gr.forEach(g=>{
-    if(R.grilla[g.variable]!=="peor") return;
-    const f=D.fg[g.variable]; if(!f) return;
-    cand.push({...f, cod:"24", titulo:"Posición frente al competidor · "+g.variable, area:"2",
-               areaN:D.bl["2"].n, nivel:0, eco:"peor que el principal competidor", prio: pesoDe("2")*3});
-  });
-  cand.sort((a,b)=>b.prio-a.prio);
-  let plan=[];
-  if(TOPE_AREA>0){ const c={}; for(const x of cand){ c[x.area]=(c[x.area]||0); if(c[x.area]<TOPE_AREA){ plan.push(x); c[x.area]++; } if(plan.length===5) break; } }
-  else plan = cand.slice(0,5);
-
-  return {areas, global, banda:badge(global), familiar, noMedidos,
-          foda:{F:top(F), D:top(Dd), O:top(O), A:top(A)},
-          fodaCrudo:{F:F.length,D:Dd.length,O:O.length,A:A.length},
-          prob, plan};
-}
-function badge(p){ return bandaDe(p); }
-
-/* ====== resultados ====== */
-function resultados(){
-  const c = calcular();
-  const emp = R.enc.E4 ? "" : "";
-  const titulo = "Diagnóstico integral de gestión";
-  const sub = [R.enc.E4 && esc(R.enc.E4), "Rubro distribuidora",
-    new Date().toLocaleDateString("es-AR",{day:"2-digit",month:"long",year:"numeric"})].filter(Boolean).join(" · ");
-
-  const cuad = (k, nom, origen, arr) => `
-    <div class="fq fq--${k}"><h4>${nom}</h4><span class="src">${origen}</span>
-      ${arr.length ? `<ul>${arr.map(x=>`<li>${esc(x.t)}</li>`).join("")}</ul>`
-                   : `<p class="none">Sin ítems en este cuadrante.</p>`}</div>`;
-
-  const ficha = (p,i) => `
-    <article class="act"><div class="act__rank">${i+1}</div><div>
-      <div class="act__top"><span class="act__code">${esc(p.cod)}</span><span class="act__q">${esc(p.titulo)}</span></div>
-      <p class="act__ans">Respuesta registrada: ${esc(p.eco||"—")}</p>
-      <p class="act__do">${esc(p.a)}</p>
-      <div class="act__meta">
-        <div><dt>Área</dt><dd>${esc(p.areaN)}</dd></div>
-        <div><dt>Responsable</dt><dd>${esc(p.r)}</dd></div>
-        <div><dt>Plazo</dt><dd>${esc(p.p)}</dd></div>
-        <div><dt>Esfuerzo</dt><dd>${esc(p.e)}</dd></div>
-        <div><dt>Impacto</dt><dd>${esc(p.i)}</dd></div>
-      </div></div></article>`;
-
-  $("#res").innerHTML = `
-    <div class="res__hero"><div class="wrap">
-      <div class="eyebrow">Resultado del diagnóstico integral</div>
-      <h1>${titulo}</h1><p class="res__sub">${sub}</p>
-      <div class="gauge">
-        <div><div class="gauge__n" id="r-n">0</div><div class="gauge__of">DE 100</div></div>
-        <div class="gauge__lvl">
-          <div class="gauge__lvlname">${c.banda.nombre}</div>
-          <p class="gauge__lvldesc">${c.banda.desc}</p>
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <img class="hero__logo" src="/logo.png" alt="Criterya · Consultora de gestión empresarial">
+        <p class="eyebrow">Autodiagnóstico online · Sin costo</p>
+        <h1>¿Querés saber dónde está parada <em>tu empresa</em>?</h1>
+        <p class="hero__lead">Respondé el cuestionario desde tu computadora y obtené el puntaje de
+        cada área de gestión, el FODA y las cinco acciones de mayor impacto. Sin costo, sin registro
+        previo y sin que nadie te llame si no lo pedís.</p>
+        <div class="hero__cta">
+          <a class="btn btn--act" href="#diagnosticos">
+            Empezar el autodiagnóstico
+            <span class="btn__free">Gratis</span>
+          </a>
+          <a class="btn btn--out" href="#servicios">Ver los servicios</a>
         </div>
+        <p class="hero__note">Se procesa en tu navegador · Nada se envía sin tu confirmación</p>
       </div>
-    </div></div>
 
+      <div class="board" id="board">
+        <div class="board__head">
+          <h2>Áreas de gestión</h2>
+          <span>Peso sobre 100</span>
+        </div>
+        <div id="rows"></div>
+        <p class="board__foot">Perfil ilustrativo · El peso de cada área cambia según el rubro ·
+        Tu empresa se mide en el diagnóstico</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ESCALERA DE DIAGNÓSTICOS ============ -->
+  <section class="sec rv" id="diagnosticos">
     <div class="wrap">
-      <div class="block">
-        <h3 class="sect">Áreas de gestión</h3>
-        <p class="sect__note">Nueve áreas puntuadas de 0 a 100. El peso es cuánto incide cada una en el índice global.
-        Mercado y contexto no puntúa: alimenta el FODA. Están ordenadas de menor a mayor puntaje.</p>
-        <div class="areas">
-        ${[...c.areas].sort((a,b)=>a.pts-b.pts).map(a=>{
-          const ci=NIVELES.findIndex(n=>n.id===a.banda.id), col=nivelColor(ci);
-          return `<div class="arow"><div>
-            <div class="arow__top"><span class="arow__name">${esc(a.nombre)}</span>
-              <span class="arow__w">${a.peso}% del global</span></div>
-            <div class="arow__bar"><i class="tick" style="left:30%"></i><i class="tick" style="left:55%"></i><i class="tick" style="left:78%"></i>
-              <div class="arow__fill" data-w="${a.pts}" style="background:${col}"></div></div>
-          </div><div class="arow__num"><b style="color:${col}">${a.pts}</b><span style="color:${col}">${a.banda.nombre}</span></div></div>`;
-        }).join("")}
-        </div>
+      <div class="sec__head">
+        <p class="eyebrow">Los diagnósticos</p>
+        <h2>Empezá por donde quieras. Los dos primeros no cuestan nada</h2>
+        <p>Son tres escalones de profundidad creciente. Podés quedarte en el primero, seguir al
+        segundo cuando quieras, y llamarnos solo si el resultado te parece que amerita.</p>
       </div>
 
-      <div class="block">
-        <h3 class="sect">FODA</h3>
-        <p class="sect__note">Fortalezas y debilidades salen de las áreas de gestión y de la comparación con el principal competidor:
-        dependen de decisiones propias. Oportunidades y amenazas salen exclusivamente del bloque de mercado y contexto: no dependen de la empresa.
-        Máximo seis ítems por cuadrante, ordenados por peso del área.</p>
-        <div class="foda__axis"><span>Interno · bajo control de la empresa</span></div>
-        <div class="foda">
-          ${cuad("F","Fortalezas","Preguntas respondidas en el nivel más alto",c.foda.F)}
-          ${cuad("D","Debilidades","Preguntas en nivel 0 y variables peores que el competidor",c.foda.D)}
-        </div>
-        <div class="foda__axis" style="margin-top:16px"><span>Externo · del entorno</span></div>
-        <div class="foda">
-          ${cuad("O","Oportunidades","Bloque Mercado y contexto",c.foda.O)}
-          ${cuad("A","Amenazas","Bloque Mercado y contexto",c.foda.A)}
-        </div>
-      </div>
-
-      ${c.noMedidos.length?`<div class="block">
-        <h3 class="sect">Datos que la empresa no tiene medidos</h3>
-        <p class="sect__note">Estas preguntas se respondieron con "No lo tengo medido". Puntúan cero, pero se informan aparte:
-        no saber el dato es un hallazgo distinto de saberlo y que sea malo. No generan una debilidad en el FODA.</p>
-        <div class="warn"><div class="warn__h">${c.noMedidos.length} de 10 preguntas de dato</div>
-        <p>${c.noMedidos.map(x=>esc(x.cod+" · "+x.titulo)).join(" · ")}</p></div>
-      </div>`:""}
-
-      <div class="block">
-        <h3 class="sect">Problemática priorizada</h3>
-        <p class="sect__note">Las cinco debilidades de mayor incidencia, ordenadas por peso del área y tamaño de la brecha.
-        Es el ordenamiento automático de los hallazgos, no una jerarquización de causas: eso es trabajo del consultor.</p>
-        ${c.prob.length ? c.prob.map((p,i)=>`<div class="prob">
-            <div class="prob__t"><span class="prob__r">${i+1}</span><span class="prob__q">${esc(p.t)}</span>
-            <span class="prob__a">${esc(p.cod)} · ${esc(D.bl[p.area]?D.bl[p.area].n:"")}</span></div></div>`).join("")
-          : `<p class="sect__note">No se detectaron debilidades en nivel 0.</p>`}
-      </div>
-
-      <div class="block">
-        <h3 class="sect">Recomendaciones</h3>
-        <p class="sect__note">Las cinco acciones con mejor relación entre el peso del área y la brecha detectada,
-        con responsable sugerido y plazo estimado.</p>
-        ${c.plan.length ? c.plan.map(ficha).join("") : `<p class="sect__note">Sin brechas para priorizar.</p>`}
-      </div>
-
-      <div class="block send send--dl" id="send">
-        <h3 class="sect">Llévese el informe completo</h3>
-        <p class="sect__note">Complete sus datos y descargue este diagnóstico en PDF: el puntaje por área,
-        el FODA, la problemática priorizada y las cinco recomendaciones con responsable y plazo.
-        Criterya recibe una copia junto con el anexo técnico, para poder revisarlo antes de cualquier conversación.</p>
-        <div class="send__grid">
-          <div class="fld2">
-            <label for="d-nom">Nombre y apellido</label>
-            <input id="d-nom" type="text" autocomplete="name">
+      <div class="steps3">
+        <article class="dg">
+          <div class="dg__step"><b>1</b>Punto de entrada</div>
+          <h3>Diagnóstico express</h3>
+          <p>Dieciocho preguntas sobre ocho áreas. Te devuelve el puntaje por área y las cinco
+          acciones de mayor impacto. Es la foto rápida.</p>
+          <div class="dg__meta">
+            <span class="tag tag--free">Sin costo</span>
+            <span class="tag">6–8 min</span>
+            <span class="tag">18 preguntas</span>
           </div>
-          <div class="fld2">
-            <label for="d-emp">Empresa</label>
-            <input id="d-emp" type="text" autocomplete="organization">
+          <div class="dg__go">
+            <a class="btn btn--out btn--sm" href="URL_EXPRESS">Hacer el express</a>
           </div>
-          <div class="fld2">
-            <label for="d-mail">Correo electrónico</label>
-            <input id="d-mail" type="email" autocomplete="email" inputmode="email" placeholder="su@correo.com">
+        </article>
+
+        <article class="dg dg--live">
+          <div class="dg__step"><b>2</b>El más completo</div>
+          <h3>Diagnóstico integral</h3>
+          <p>Sesenta y siete preguntas sobre mercado, competencia y las nueve áreas. Suma el FODA,
+          la problemática priorizada y el plan con responsable y plazo.</p>
+          <div class="dg__meta">
+            <span class="tag tag--free">Sin costo</span>
+            <span class="tag">22–28 min</span>
+            <span class="tag">67 preguntas</span>
           </div>
-          <div class="fld2">
-            <label for="d-tel">Teléfono</label>
-            <input id="d-tel" type="tel" autocomplete="tel" inputmode="tel">
+          <div class="dg__go">
+            <a class="btn btn--act btn--sm" href="https://criterya-integral-sooty.vercel.app" target="_blank" rel="noopener">
+              Hacer el integral
+              <svg width="15" height="10" viewBox="0 0 17 11" fill="none" aria-hidden="true"><path d="M1 5.5h14M11 1l4.5 4.5L11 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
           </div>
-        </div>
-        <label class="send__ok"><input type="checkbox" id="d-ok" checked>
-          <span>Criterya puede contactarme para conversar sobre este resultado.</span></label>
-        <div class="send__row" style="margin-top:16px">
-          <button class="btn btn--big" type="button" id="d-btn" disabled>
-            Descargar el informe en PDF</button>
-        </div>
-        <div class="send__msg" id="d-msg"></div>
+        </article>
+
+        <article class="dg">
+          <div class="dg__step"><b>3</b>Con consultor</div>
+          <h3>Relevamiento asistido</h3>
+          <p>Vamos a la empresa: entrevistas, recorrida y datos de los sistemas. Lo que el
+          autodiagnóstico no puede hacer es mirar el depósito y hablar con tu gente.</p>
+          <div class="dg__meta">
+            <span class="tag">Presencial</span>
+            <span class="tag">A convenir</span>
+          </div>
+          <div class="dg__go">
+            <a class="btn btn--out btn--sm" href="#contacto">Pedir una propuesta</a>
+          </div>
+        </article>
       </div>
 
-      <div class="actions">
-        <button class="btn btn--ghost" type="button" id="again">Empezar de nuevo</button>
+      <div class="todo">
+        <p>El diagnóstico express todavía no está publicado: el botón apunta a
+        <span class="mono">URL_EXPRESS</span>. Hay que subirlo y reemplazar esa dirección,
+        o quitar la tarjeta hasta que esté listo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARA QUIÉN ============ -->
+  <section class="sec rv">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Para quién trabajamos</p>
+        <h2>Empresas donde el dueño todavía decide casi todo</h2>
+        <p>Estructuras de entre cinco y cien personas, con volumen suficiente para que un error
+        de gestión cueste caro y con margen suficiente para corregirlo a tiempo.</p>
+      </div>
+      <div class="who">
+        <div><h3>PyMEs</h3><p>Industria y servicios que crecieron más rápido que su organización interna.</p></div>
+        <div><h3>Distribuidoras</h3><p>Donde el stock, la logística y los proveedores definen la rentabilidad.</p></div>
+        <div><h3>Comercios</h3><p>Puntos de venta que necesitan ordenar compras, precios y capital de trabajo.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICIOS ============ -->
+  <section class="sec rv" id="servicios">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Servicios</p>
+        <h2>Seis frentes de trabajo</h2>
+        <p>Se contratan por separado o como un programa continuo. En todos los casos el punto de
+        partida es el mismo: entender cómo se trabaja hoy, no cómo debería trabajarse.</p>
+      </div>
+      <div class="svcs">
+
+        <article class="svc">
+          <span class="svc__tag">01 · Punto de partida</span>
+          <h3>Diagnóstico de gestión</h3>
+          <p>Relevamiento de las nueve áreas, FODA, problemática priorizada y las acciones de mayor impacto.</p>
+          <ul>
+            <li>Autodiagnóstico en línea o relevamiento asistido</li>
+            <li>Puntaje por área con peso según el rubro</li>
+            <li>Informe con responsable, plazo y esfuerzo estimado</li>
+          </ul>
+        </article>
+
+        <article class="svc">
+          <span class="svc__tag">02 · Números a la vista</span>
+          <h3>Tableros de indicadores</h3>
+          <p>Poner en pantalla lo que hoy se intuye: márgenes reales, rotación, morosidad, capital de trabajo.</p>
+          <ul>
+            <li>Definición de los indicadores que importan en tu rubro</li>
+            <li>Tablero automático con datos de tus propios sistemas</li>
+            <li>Presupuesto anual y seguimiento de desvíos</li>
+          </ul>
+        </article>
+
+        <article class="svc">
+          <span class="svc__tag">03 · Tecnología</span>
+          <h3>Inteligencia artificial aplicada</h3>
+          <p>Dónde conviene usarla en una PyME y dónde es humo. Casos concretos, no promesas.</p>
+          <ul>
+            <li>Automatización de tareas administrativas repetitivas</li>
+            <li>Análisis de ventas, compras y comportamiento de clientes</li>
+            <li>Capacitación al equipo en herramientas de uso diario</li>
+          </ul>
+        </article>
+
+        <article class="svc">
+          <span class="svc__tag">04 · Afuera</span>
+          <h3>Investigación de mercado</h3>
+          <p>Qué está pasando fuera de la empresa: competencia, precios, clientes y demanda potencial.</p>
+          <ul>
+            <li>Relevamiento de competidores y comparación de precios</li>
+            <li>Encuestas a clientes y a clientes perdidos</li>
+            <li>Dimensionamiento de mercado por zona y segmento</li>
+          </ul>
+        </article>
+
+        <article class="svc">
+          <span class="svc__tag">05 · Operación</span>
+          <h3>Comercial, compras y stock</h3>
+          <p>El circuito donde una distribuidora gana o pierde plata todos los días.</p>
+          <ul>
+            <li>Política de precios, descuentos y condiciones de venta</li>
+            <li>Reposición, quiebres y capital inmovilizado en depósito</li>
+            <li>Negociación y evaluación de proveedores</li>
+          </ul>
+        </article>
+
+        <article class="svc">
+          <span class="svc__tag">06 · Estructura</span>
+          <h3>Organización y empresa familiar</h3>
+          <p>Que la empresa funcione cuando el dueño no está, y que el paso a la próxima generación
+          no la parta al medio.</p>
+          <ul>
+            <li>Roles, responsabilidades y delegación efectiva</li>
+            <li>Procesos escritos y sistemas de información</li>
+            <li>Protocolo familiar y ordenamiento societario</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INDICADORES ============ -->
+  <section class="sec rv" id="indicadores">
+    <div class="wrap kpi">
+      <div>
+        <p class="eyebrow">Tableros de indicadores</p>
+        <h2 style="font-family:var(--disp);font-weight:800;font-size:clamp(1.45rem,3vw,2.05rem);
+          line-height:1.14;letter-spacing:-.025em;color:var(--navy);margin:.36em 0 0">
+          Cinco números que deberías poder mirar cualquier lunes a la mañana</h2>
+        <p style="color:var(--muted);margin:15px 0 0">La mayoría de las PyMEs mide facturación y
+        poco más. El problema es que la facturación sube mientras el margen baja, y eso no se ve
+        hasta que aparece en la caja tres meses después.</p>
+        <p style="color:var(--muted);margin:13px 0 0">Armamos el tablero con los datos que ya
+        tenés en tu sistema de gestión, definimos qué indicador mira cada responsable y con qué
+        frecuencia, y dejamos el seguimiento andando. No es un informe: es una pantalla que se
+        actualiza sola.</p>
+        <div style="margin-top:26px"><a class="btn btn--nav" href="#contacto">Conversar sobre tu tablero</a></div>
       </div>
 
-      <div class="foot"><img src="/logo.png" alt="Criterya · Consultora de gestión empresarial">
-        <p>Este diagnóstico es una primera aproximación construida sobre respuestas declaradas. Ordena prioridades y
-        señala por dónde empezar; no reemplaza el relevamiento de cada área ni la jerarquización de causas, que son
-        trabajo del consultor. Los puntajes de este instrumento no son comparables con los del diagnóstico express:
-        distinta cantidad de preguntas, distintas áreas y distintos pesos.</p></div>
-    </div>`;
+      <div class="panel" id="panel">
+        <div class="panel__h"><b>Tablero · Distribuidora</b><span>Ejemplo ilustrativo</span></div>
+        <div id="kpis"></div>
+        <p class="panel__f">Valores de muestra, no corresponden a ninguna empresa real ·
+        Los indicadores se definen caso por caso</p>
+      </div>
+    </div>
+  </section>
 
-  $("#quiz").classList.add("hidden");
-  $("#intro").classList.add("hidden");
-  $("#res").classList.remove("hidden");
-  window.scrollTo({top:0,behavior:"instant"});
+  <!-- ============ IA ============ -->
+  <section class="diag" id="ia">
+    <div class="wrap diag__grid">
+      <div>
+        <p class="eyebrow">Inteligencia artificial aplicada</p>
+        <h2>La pregunta no es si sirve, sino para qué tarea tuya</h2>
+        <p class="lead">Hay mucha promesa dando vueltas y poca aplicación concreta. Nosotros
+        empezamos al revés: buscamos las tareas que hoy consumen horas de tu gente y evaluamos,
+        una por una, cuáles conviene automatizar y cuáles no.</p>
+        <div class="diag__cta">
+          <a class="btn btn--act" href="#contacto">Ver qué aplica en tu empresa</a>
+        </div>
+        <p class="diag__note">Trabajo con herramientas comerciales · Sin desarrollos a medida
+        salvo que el caso lo justifique</p>
+      </div>
+      <div class="specs">
+        <div><b>Compras</b><span>Sugerencia de reposición a partir del histórico de ventas y los plazos de entrega.</span></div>
+        <div><b>Cobranzas</b><span>Priorización de la gestión según riesgo y antigüedad de cada cuenta.</span></div>
+        <div><b>Administración</b><span>Carga y clasificación automática de comprobantes y remitos.</span></div>
+        <div><b>Comercial</b><span>Detección de clientes que bajaron el ritmo de compra antes de perderlos.</span></div>
+        <div><b>Equipo</b><span>Capacitación práctica para que el uso no dependa de una sola persona.</span></div>
+      </div>
+    </div>
+  </section>
 
-  requestAnimationFrame(()=>{ $("#res").querySelectorAll(".arow__fill").forEach(f=>
-      f.style.width = f.dataset.w==="0" ? "4px" : f.dataset.w+"%"); });
-  const el=$("#r-n");
-  if(matchMedia("(prefers-reduced-motion:reduce)").matches){ el.textContent=c.global; }
-  else{ const t0=performance.now(), dur=1100;
-    const tick=t=>{ const k=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-k,3);
-      el.textContent=Math.round(c.global*e); if(k<1) requestAnimationFrame(tick); };
-    requestAnimationFrame(tick); }
+  <!-- ============ INVESTIGACIÓN DE MERCADO ============ -->
+  <section class="sec rv" id="mercado">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Investigación de mercado</p>
+        <h2>Lo que pasa afuera no lo contesta ningún cuestionario interno</h2>
+        <p>El diagnóstico mira la empresa por dentro. Para decidir dónde abrir, qué línea sumar o
+        cómo mover los precios hace falta salir a buscar el dato afuera.</p>
+      </div>
+      <div class="svcs">
+        <article class="svc">
+          <span class="svc__tag">Competencia</span>
+          <h3>Quién más juega y a qué precio</h3>
+          <p>Relevamiento sistemático de competidores directos: surtido, precios, condiciones de
+          venta y posicionamiento. Comparado contra tu propia estructura.</p>
+        </article>
+        <article class="svc">
+          <span class="svc__tag">Clientes</span>
+          <h3>Por qué compran y por qué dejaron de comprar</h3>
+          <p>Encuestas y entrevistas a clientes activos y perdidos. Los que se fueron suelen
+          explicar mejor el problema que los que se quedaron.</p>
+        </article>
+        <article class="svc">
+          <span class="svc__tag">Demanda</span>
+          <h3>Cuánto mercado hay en tu zona</h3>
+          <p>Dimensionamiento por zona y segmento con datos públicos y relevamiento propio, para
+          saber qué participación tenés y cuánto queda por tomar.</p>
+        </article>
+        <article class="svc">
+          <span class="svc__tag">Decisión</span>
+          <h3>Un informe que se pueda usar</h3>
+          <p>Conclusiones accionables con su fundamento a la vista, no un documento de cien
+          páginas que termina en un cajón.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
-  armarDescarga(c);
-  $("#again").onclick=()=>{ if(confirm("Esto borra las respuestas guardadas. ¿Continuar?")){ borrarGuardado(); location.reload(); } };
+  <!-- ============ MÉTODO ============ -->
+  <section class="sec rv" id="metodo">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Cómo trabajamos</p>
+        <h2>Cinco etapas, en este orden</h2>
+        <p>El orden importa: sin relevamiento no hay diagnóstico honesto, y sin priorización el
+        plan se vuelve una lista de deseos que nadie ejecuta.</p>
+      </div>
+      <div class="flow">
+        <div class="stp"><span class="stp__n">01</span><h3>Relevamiento</h3>
+          <p>Entrevistas, recorrida y datos de los sistemas. Se registra la práctica real.</p></div>
+        <div class="stp"><span class="stp__n">02</span><h3>Diagnóstico</h3>
+          <p>Puntaje por área, FODA y las causas detrás de los síntomas.</p></div>
+        <div class="stp"><span class="stp__n">03</span><h3>Priorización</h3>
+          <p>Los problemas se ordenan por impacto sobre el resultado, no por urgencia percibida.</p></div>
+        <div class="stp"><span class="stp__n">04</span><h3>Plan de acción</h3>
+          <p>Cada acción con un responsable, un plazo y una forma concreta de verificarla.</p></div>
+        <div class="stp"><span class="stp__n">05</span><h3>Seguimiento</h3>
+          <p>Revisiones periódicas para sostener lo implementado y corregir los desvíos.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SOCIOS ============ -->
+  <section class="sec rv" id="socios">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Quiénes firman los informes</p>
+        <h2>Consultoría con nombre y apellido</h2>
+        <p>Los dos socios participan del relevamiento y de la devolución. No se deriva el trabajo
+        de campo a terceros.</p>
+      </div>
+      <div class="socios">
+        <article class="bio">
+          <div class="bio__ph"><img src="/logomark.png" alt=""></div>
+          <div>
+            <h3>Cr. Adrián Pagés</h3>
+            <p class="bio__role">Contador público · Socio</p>
+            <p class="bio__txt">[Reseña: formación, años de ejercicio, rubros donde tiene más
+            recorrido y qué áreas conduce dentro de la consultora.]</p>
+            <a class="bio__li" href="https://www.linkedin.com/in/adrianpages/" target="_blank" rel="noopener">
+              Perfil en LinkedIn
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 9L9 3M9 3H4.5M9 3v4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
+        <article class="bio">
+          <div class="bio__ph"><img src="/logomark.png" alt=""></div>
+          <div>
+            <h3>Lic. Eduardo Rinaldi</h3>
+            <p class="bio__role">Licenciado en administración · Socio</p>
+            <p class="bio__txt">[Reseña: formación, años de ejercicio, rubros donde tiene más
+            recorrido y qué áreas conduce dentro de la consultora.]</p>
+            <a class="bio__li" href="https://www.linkedin.com/in/eduardo-rinaldi-33a96857/" target="_blank" rel="noopener">
+              Perfil en LinkedIn
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 9L9 3M9 3H4.5M9 3v4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+      <div class="todo">
+        <p>Faltan las dos reseñas y las fotos. Tres o cuatro líneas de cada uno, y las fotos
+        recortadas en cuadrado de 600×600 px en lugar del isotipo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CONTACTO ============ -->
+  <section class="sec rv" id="contacto">
+    <div class="wrap">
+      <div class="sec__head">
+        <p class="eyebrow">Contacto</p>
+        <h2>Media hora de conversación, sin cargo</h2>
+        <p>Contanos qué te tiene preocupado hoy. Si el trabajo no corresponde a una consultoría de
+        gestión, te lo decimos en esa misma conversación.</p>
+      </div>
+
+      <div class="contact">
+        <form class="form" id="form" novalidate>
+          <div class="f2">
+            <div class="fld"><label for="c-nombre">Nombre y apellido</label>
+              <input id="c-nombre" type="text" autocomplete="name"></div>
+            <div class="fld"><label for="c-empresa">Empresa</label>
+              <input id="c-empresa" type="text" autocomplete="organization"></div>
+          </div>
+          <div class="f2">
+            <div class="fld"><label for="c-email">Correo electrónico</label>
+              <input id="c-email" type="email" autocomplete="email"></div>
+            <div class="fld"><label for="c-tel">Teléfono</label>
+              <input id="c-tel" type="tel" autocomplete="tel"></div>
+          </div>
+          <div class="fld"><label for="c-rubro">Rubro</label>
+            <select id="c-rubro">
+              <option value="">Elegí una opción</option>
+              <option>Distribuidora</option><option>Comercio</option>
+              <option>Industria</option><option>Servicios</option><option>Otro</option>
+            </select></div>
+          <div class="fld"><label for="c-msg">En qué podemos ayudarte</label>
+            <textarea id="c-msg"></textarea></div>
+          <label class="chk"><input type="checkbox" id="c-ok">
+            <span>Autorizo a Criterya a usar estos datos para responder mi consulta.</span></label>
+          <div><button class="btn btn--act" id="c-btn" type="submit" disabled>Enviar consulta</button></div>
+          <p class="msg" id="c-msgout" role="status" aria-live="polite"></p>
+        </form>
+
+        <aside>
+          <div class="box">
+            <h3>Por Telegram</h3>
+            <p>Si preferís escribir directo, es la vía más rápida. Se responde en horario laboral.</p>
+            <a class="btn btn--out" href="https://t.me/adrianpages" target="_blank" rel="noopener">
+              Escribir a @adrianpages
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 9L9 3M9 3H4.5M9 3v4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+          <div class="box">
+            <h3>Datos de contacto</h3>
+            <dl class="dl">
+              <div><dt>Correo</dt><dd><a href="mailto:contacto@criterya.com.ar">contacto@criterya.com.ar</a></dd></div>
+              <div><dt>Teléfonos</dt><dd>
+                <a href="tel:+542494526102">249 452-6102</a><br>
+                <a href="tel:+542494492344">249 449-2344</a></dd></div>
+              <div><dt>Ubicación</dt><dd>Tandil, Buenos Aires<br>
+                <span style="color:var(--muted);font-size:.86rem">Trabajo presencial y remoto</span></dd></div>
+              <div><dt>LinkedIn</dt><dd>
+                <a href="https://www.linkedin.com/in/adrianpages/" target="_blank" rel="noopener">Adrián Pagés</a><br>
+                <a href="https://www.linkedin.com/in/eduardo-rinaldi-33a96857/" target="_blank" rel="noopener">Eduardo Rinaldi</a></dd></div>
+            </dl>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot__in">
+    <img src="/logo-blanco.png" alt="Criterya">
+    <nav>
+      <a href="#diagnosticos">Diagnósticos</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#indicadores">Indicadores</a>
+      <a href="#ia">IA</a>
+      <a href="#mercado">Mercado</a>
+      <a href="#socios">Socios</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <p class="foot__legal">© <span id="anio">2026</span> Criterya · Consultora de gestión empresarial.
+    Los autodiagnósticos en línea ordenan prioridades y no reemplazan el relevamiento en la empresa.</p>
+  </div>
+</footer>
+
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzDIp4cx8UxllSvsoCt25Yj0zo7B0mICQkMFUWfMw9X5psxv7IBi8dt3JVSqiWKp8TrBA/exec";
+const MAIL_FALLBACK = "contacto@criterya.com.ar";
+
+/* Umbrales del instrumento: las mismas bandas del diagnóstico. */
+const BANDAS = [{max:29,c:"var(--b0)"},{max:54,c:"var(--b1)"},{max:77,c:"var(--b2)"},{max:100,c:"var(--b3)"}];
+const colorDe = v => (BANDAS.find(b => v <= b.max) || BANDAS[3]).c;
+
+/* Nombres y pesos tomados del diagnóstico integral. Los valores son ilustrativos. */
+const AREAS = [
+  {n:"Comercial y clientes",             w:15, v:62},
+  {n:"Stock, depósito y logística",      w:14, v:38},
+  {n:"Administración y finanzas",        w:14, v:45},
+  {n:"Dirección, estrategia y gobierno", w:13, v:33},
+  {n:"Compras y proveedores",            w:10, v:58},
+  {n:"Competencia y posicionamiento",    w:10, v:50},
+  {n:"Organización y recursos humanos",  w: 9, v:41},
+  {n:"Procesos, calidad y sistemas",     w: 8, v:29},
+  {n:"Marketing digital y B2B",          w: 7, v:22}
+];
+
+const KPIS = [
+  {n:"Margen bruto",           v:"31,4 %",   d:"+1,8 pts", up:true,  pct:64},
+  {n:"Rotación de stock",      v:"4,2 v/año", d:"−0,6",     up:false, pct:35},
+  {n:"Días de cobranza",       v:"47 días",  d:"−5 días",  up:true,  pct:58},
+  {n:"Quiebre de góndola",     v:"6,1 %",    d:"−2,3 pts", up:true,  pct:71},
+  {n:"Ventas por empleado",    v:"$ 8,4 M",  d:"+11 %",    up:true,  pct:80}
+];
+
+const ticks = "<i style='left:30%'></i><i style='left:55%'></i><i style='left:78%'></i>";
+const quieto = matchMedia("(prefers-reduced-motion:reduce)").matches;
+
+/* al entrar en pantalla, llena las barras en cascada */
+function animar(cont, sel){
+  const barras = cont.querySelectorAll(sel);
+  if(quieto){ barras.forEach(b => b.style.width = b.dataset.v + "%"); return; }
+  const io = new IntersectionObserver((ents, obs) => {
+    ents.forEach(e => {
+      if(!e.isIntersecting) return;
+      barras.forEach((b,i) => setTimeout(() => b.style.width = b.dataset.v + "%", 80 + i*70));
+      obs.disconnect();
+    });
+  }, {threshold:.25});
+  io.observe(cont);
 }
 
-/* ====== descarga del informe ====== */
-function payload(c, datos){
-  const textos={};
-  D.pr.forEach(q=>{ const n=R.resp[q.c]; if(n===undefined) return;
-    textos[q.c] = n===-1 ? "No lo tengo medido" : (q.o.find(o=>o.n===n)||{}).t; });
-  return {
-    instrumento:"integral-distribuidora", rubro:"Rubro distribuidora",
-    /* empresa es la razon social declarada en la descarga. E4 es la ciudad de
-       la casa central: antes se usaba como empresa por error. */
-    empresa:datos.empresa||"", ciudad:R.enc.E4||"",
-    persona:datos.nombre||"", telefono:datos.telefono||"",
-    email:datos.email||"", contactar:!!datos.contactar, copia:true,
-    global:c.global, banda:c.banda.nombre,
-    areas:c.areas.map(a=>({nombre:a.nombre,pts:a.pts,peso:a.peso,banda:a.banda.nombre})),
-    foda:{F:c.foda.F.map(x=>x.t),D:c.foda.D.map(x=>x.t),O:c.foda.O.map(x=>x.t),A:c.foda.A.map(x=>x.t)},
-    problematica:c.prob.map(p=>({cod:p.cod,texto:p.t,area:D.bl[p.area]?D.bl[p.area].n:""})),
-    plan:c.plan.map(p=>({cod:p.cod,titulo:p.titulo,area:p.areaN,nivel:p.nivel,accion:p.a,
-                         responsable:p.r,plazo:p.p,esfuerzo:p.e,impacto:p.i})),
-    /* --- anexo tecnico: no se muestra en pantalla --- */
-    anexo:{
-      encuadre:R.enc,
-      respuestas:Object.assign({},R.resp),
-      textos:textos,
-      grilla:Object.assign({},R.grilla),
-      multiples:Object.assign({},R.mult),
-      subIndiceFamiliar:c.familiar,
-      moduloFamiliar: esFamiliar() ? D.pr.filter(q=>q.b==="F").map(q=>({cod:q.c,titulo:q.ti,
-          nivel:R.resp[q.c], texto:(q.o.find(o=>o.n===R.resp[q.c])||{}).t})) : null,
-      noMedidos:c.noMedidos,
-      fodaTotales:c.fodaCrudo,
-      ratios:{
-        facturacionMensual:R.enc.E10||null, mesReferencia:R.enc.E10mes||null,
-        empleados:R.enc.E6||null, sucursales:R.enc.E5||null,
-        antiguedadEmpresa: R.enc.E1 ? (new Date().getFullYear()-Number(R.enc.E1)) : null
-      },
-      umbralesUsados:UMBRALES, topeAreaAplicado:TOPE_AREA
-    }
-  };
-}
-function armarDescarga(c){
-  const nom=$("#d-nom"), emp=$("#d-emp"), mail=$("#d-mail"), tel=$("#d-tel");
-  const ok=$("#d-ok"), btn=$("#d-btn"), msg=$("#d-msg");
-  const mailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
-  const valido = () => nom.value.trim() && emp.value.trim() && mailOk(mail.value);
-  const rev = () => { btn.disabled = !valido(); };
-
-  [nom,emp,mail,tel].forEach(el => el.oninput = rev);
-  mail.onkeydown = e => { if(e.key==="Enter" && valido()) btn.click(); };
-
-  btn.onclick = () => descargar(c, {
-    nombre: nom.value.trim(), empresa: emp.value.trim(),
-    email: mail.value.trim(), telefono: tel.value.trim(), contactar: ok.checked
-  }, btn, msg);
-}
-
-async function descargar(c, datos, btn, msg){
-  btn.disabled = true;
-  btn.textContent = "Preparando el informe…";
-  msg.className = "send__msg";
-  msg.textContent = "";
-
-  /* El registro no debe bloquear la descarga: si el envío falla, el informe
-     se genera igual. El empresario ya invirtió media hora en esto. */
-  if(ENDPOINT){
-    try{
-      await fetch(ENDPOINT, {
-        method: "POST",
-        headers: {"Content-Type":"text/plain;charset=utf-8"},
-        body: JSON.stringify(payload(c, datos))
-      });
-    }catch(err){ /* silencio deliberado */ }
-  }
-
-  msg.className = "send__msg";
-  msg.innerHTML = "Se abre el cuadro de impresión: elija <b>Guardar como PDF</b> como destino.";
-  btn.textContent = "Volver a descargar";
-  btn.disabled = false;
-
-  setTimeout(() => window.print(), 350);
-}
-
-/* ====== arranque ====== */
-function arrancar(desdeGuardado){
-  SEQ=secuencia();
-  $("#intro").classList.add("hidden");
-  $("#quiz").classList.remove("hidden");
-  irA(desdeGuardado? Math.min(R.idx,SEQ.length-1) : 0);
-}
-pintarEncuadre();
-(function init(){
-  const g=leerGuardado();
-  if(g && (Object.keys(g.resp||{}).length || Object.keys(g.enc||{}).length)){
-    Object.assign(R.enc,g.enc||{}); Object.assign(R.resp,g.resp||{});
-    Object.assign(R.grilla,g.grilla||{}); Object.assign(R.mult,g.mult||{}); R.idx=g.idx||0;
-    ENC.forEach(f=>{ const el=$("#f-"+f.id); if(el && R.enc[f.id]!==undefined) el.value=R.enc[f.id];
-                     const m=$("#f-"+f.id+"m"); if(m && R.enc.E10mes) m.value=R.enc.E10mes; });
-    const cont=Object.keys(R.resp).length;
-    $("#resume-box").innerHTML=`<div class="resume"><p>Encontramos un diagnóstico sin terminar en este navegador,
-      con ${cont} ${cont===1?"pregunta respondida":"preguntas respondidas"}.</p>
-      <div class="row"><button class="btn" type="button" id="r-seguir">Retomar donde quedé</button>
-      <button class="btn btn--ghost" type="button" id="r-nuevo">Empezar de nuevo</button></div></div>`;
-    $("#r-seguir").onclick=()=>arrancar(true);
-    $("#r-nuevo").onclick=()=>{ borrarGuardado(); location.reload(); };
-  }
-  revisarInicio();
+(function tablero(){
+  const c = document.getElementById("rows");
+  c.innerHTML = AREAS.map(a => `
+    <div class="row">
+      <span class="row__name">${a.n}</span>
+      <span class="row__w">${a.w}%</span>
+      <span class="row__track">${ticks}<i class="row__fill" data-v="${a.v}"
+        style="background:${colorDe(a.v)}"></i></span>
+    </div>`).join("");
+  animar(c, ".row__fill");
 })();
-$("#start").onclick=()=>arrancar(false);
+
+(function panel(){
+  const c = document.getElementById("kpis");
+  c.innerHTML = KPIS.map(k => `
+    <div class="k">
+      <div class="k__t"><span class="k__n">${k.n}</span>
+        <span class="k__v">${k.v}<s style="color:${k.up ? "#5FBF9B" : "#D98A6E"}">${k.d}</s></span></div>
+      <div class="k__bar">${ticks}<span data-v="${k.pct}" style="background:${colorDe(k.pct)}"></span></div>
+    </div>`).join("");
+  animar(c, ".k__bar span");
+})();
+
+(function barra(){
+  const nav = document.getElementById("nav");
+  const marcar = () => nav.classList.toggle("is-stuck", window.scrollY > 6);
+  marcar(); addEventListener("scroll", marcar, {passive:true});
+})();
+
+(function reveal(){
+  if(quieto){ document.querySelectorAll(".rv").forEach(s => s.classList.add("in")); return; }
+  const io = new IntersectionObserver((ents, obs) => {
+    ents.forEach(e => { if(e.isIntersecting){ e.target.classList.add("in"); obs.unobserve(e.target); } });
+  }, {threshold:.06, rootMargin:"0px 0px -60px"});
+  document.querySelectorAll(".rv").forEach(s => io.observe(s));
+})();
+
+document.getElementById("anio").textContent = new Date().getFullYear();
+
+(function contacto(){
+  const f=document.getElementById("form"), btn=document.getElementById("c-btn"),
+        out=document.getElementById("c-msgout"), ok=document.getElementById("c-ok"),
+        mail=document.getElementById("c-email"), nom=document.getElementById("c-nombre"),
+        msg=document.getElementById("c-msg");
+
+  const mailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+  const valido = () => nom.value.trim() && mailOk(mail.value) && msg.value.trim() && ok.checked;
+  const revisar = () => btn.disabled = !valido();
+
+  f.addEventListener("input", revisar);
+  ok.addEventListener("change", revisar);
+
+  f.addEventListener("submit", async ev => {
+    ev.preventDefault();
+    if(!valido()) return;
+    btn.disabled = true; btn.textContent = "Enviando…";
+    out.className = "msg"; out.textContent = "";
+
+    const datos = {
+      instrumento:"contacto",
+      nombre: nom.value.trim(),
+      empresa: document.getElementById("c-empresa").value.trim(),
+      email: mail.value.trim(),
+      telefono: document.getElementById("c-tel").value.trim(),
+      rubro: document.getElementById("c-rubro").value,
+      mensaje: msg.value.trim(),
+      origen: location.href
+    };
+
+    try{
+      const r = await fetch(ENDPOINT, {
+        method:"POST",
+        headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body: JSON.stringify(datos)
+      });
+      const j = await r.json();
+      if(!j.ok) throw new Error(j.error || "sin confirmación");
+      f.reset();
+      out.className = "msg ok";
+      out.textContent = "Consulta enviada. Te respondemos dentro de las 48 horas hábiles.";
+      btn.textContent = "Enviar consulta"; btn.disabled = true;
+    }catch(err){
+      out.className = "msg err";
+      out.innerHTML = 'No se pudo enviar la consulta. Escribinos a ' +
+        '<a href="mailto:' + MAIL_FALLBACK + '">' + MAIL_FALLBACK + '</a> o por Telegram.';
+      btn.textContent = "Reintentar envío"; btn.disabled = false;
+    }
+  });
+})();
 </script>
 </body>
 </html>
