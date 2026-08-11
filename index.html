@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Diagnóstico Integral de Gestión · Criterya</title>
+<link rel="icon" href="/favicon.png" type="image/png">
 <meta name="description" content="Diagnóstico integral de gestión para distribuidoras de materiales eléctricos. Criterya, consultora de gestión empresarial.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -181,6 +182,17 @@ h3.sect{font-family:var(--disp);font-weight:700;font-size:1.14rem;color:var(--na
 .warn__h{font-family:var(--disp);font-weight:600;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:#8A6420;margin-bottom:5px}
 .warn p{margin:0;font-size:.9rem;color:#4A3D22}
 .send{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:23px 25px;box-shadow:var(--sh)}
+.send--dl{border:2px solid var(--navy);border-radius:8px}
+.send__grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0 14px}
+.send__grid .full{grid-column:1/-1}
+.fld2{display:flex;flex-direction:column;gap:6px}
+.fld2 label{font-family:var(--mono);font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fld2 input{font:inherit;font-size:.94rem;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--paper)}
+.fld2 input:focus{border-color:var(--cyan);outline:none;background:var(--card);box-shadow:0 0 0 3px rgba(47,143,160,.15)}
+.btn--big{padding:14px 26px;font-size:.95rem;background:var(--navy);color:#fff}
+.btn--big:hover:not([disabled]){background:var(--teal)}
+.btn--big[disabled]{opacity:.42;cursor:not-allowed}
+@media(max-width:560px){.send__grid{grid-template-columns:1fr}}
 .send .sect{padding-top:0}
 .send__row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .send__row input{flex:1;min-width:210px;font:inherit;font-size:.94rem;padding:10px 12px;border:1px solid var(--line);border-radius:5px;background:var(--paper)}
@@ -207,7 +219,7 @@ h3.sect{font-family:var(--disp);font-weight:700;font-size:1.14rem;color:var(--na
   @page{margin:14mm}
   body{background:#fff;font-size:10.5pt}
   *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important}
-  .bar,.actions,.keys,.nav,.send{display:none !important}
+  .bar,.actions,.keys,.nav,.send,.send--dl{display:none !important}
   .res__hero{background:#fff !important;color:var(--ink);padding:0 0 20px;border-bottom:3px solid var(--navy);margin-bottom:26px}
   .res__hero .eyebrow{color:var(--cyan)} .res__sub,.gauge__of,.gauge__lvldesc{color:var(--muted)}
   .act,.prob,.fq,.block{break-inside:avoid;box-shadow:none}
@@ -217,7 +229,7 @@ h3.sect{font-family:var(--disp);font-weight:700;font-size:1.14rem;color:var(--na
 
 <!-- ============ INICIO ============ -->
 <section id="intro" class="intro"><div class="wrap">
-  <img class="intro__logo" src="https://criterya.vercel.app/criterya-logo.png" alt="Criterya · Consultora de gestión empresarial">
+  <img class="intro__logo" src="/logo.png" alt="Criterya · Consultora de gestión empresarial">
   <div class="eyebrow">Diagnóstico integral · Distribuidora</div>
   <h1>Un relevamiento completo de la gestión, en poco menos de media hora</h1>
   <p class="lead">Sesenta y siete preguntas sobre mercado, competencia y todas las áreas de la empresa.
@@ -240,13 +252,13 @@ h3.sect{font-family:var(--disp);font-weight:700;font-size:1.14rem;color:var(--na
     <svg width="17" height="11" viewBox="0 0 17 11" fill="none" aria-hidden="true"><path d="M1 5.5h14M11 1l4.5 4.5L11 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
   <p class="note">El diagnóstico se procesa en este dispositivo y se guarda solo en su navegador.
-  Al terminar podrá imprimirlo, guardarlo en PDF o enviárselo por correo. Nada se envía sin su confirmación.</p>
+  Al terminar podrá descargar el informe completo en PDF. Nada se envía sin su confirmación.</p>
 </div></section>
 
 <!-- ============ CUESTIONARIO ============ -->
 <div id="quiz" class="hidden">
   <div class="bar"><div class="bar__in">
-    <img class="bar__mark" src="https://criterya.vercel.app/criterya-logo.png" alt="Criterya">
+    <img class="bar__mark" src="/logo.png" alt="Criterya">
     <div class="bar__meta">
       <div class="bar__blk" id="q-blk"></div>
       <div class="bar__sub mono" id="q-sub"></div>
@@ -650,25 +662,43 @@ function resultados(){
         ${c.plan.length ? c.plan.map(ficha).join("") : `<p class="sect__note">Sin brechas para priorizar.</p>`}
       </div>
 
-      ${ENDPOINT?`<div class="block send" id="send">
-        <h3 class="sect">Enviar el resultado por correo</h3>
-        <p class="sect__note">Reciba este diagnóstico en su casilla. Criterya recibe una copia junto con el anexo técnico
-        para poder revisarlo antes de cualquier conversación.</p>
-        <div class="send__row">
-          <input type="email" id="s-mail" placeholder="su@correo.com" autocomplete="email" inputmode="email">
-          <button class="btn" type="button" id="s-btn" disabled>Enviar</button>
+      <div class="block send send--dl" id="send">
+        <h3 class="sect">Llévese el informe completo</h3>
+        <p class="sect__note">Complete sus datos y descargue este diagnóstico en PDF: el puntaje por área,
+        el FODA, la problemática priorizada y las cinco recomendaciones con responsable y plazo.
+        Criterya recibe una copia junto con el anexo técnico, para poder revisarlo antes de cualquier conversación.</p>
+        <div class="send__grid">
+          <div class="fld2">
+            <label for="d-nom">Nombre y apellido</label>
+            <input id="d-nom" type="text" autocomplete="name">
+          </div>
+          <div class="fld2">
+            <label for="d-emp">Empresa</label>
+            <input id="d-emp" type="text" autocomplete="organization">
+          </div>
+          <div class="fld2">
+            <label for="d-mail">Correo electrónico</label>
+            <input id="d-mail" type="email" autocomplete="email" inputmode="email" placeholder="su@correo.com">
+          </div>
+          <div class="fld2">
+            <label for="d-tel">Teléfono</label>
+            <input id="d-tel" type="tel" autocomplete="tel" inputmode="tel">
+          </div>
         </div>
-        <label class="send__ok"><input type="checkbox" id="s-ok">
-          <span>Acepto que Criterya reciba una copia de mis respuestas y de este resultado, y que me contacte en relación con este diagnóstico.</span></label>
-        <div class="send__msg" id="s-msg"></div>
-      </div>`:""}
+        <label class="send__ok"><input type="checkbox" id="d-ok" checked>
+          <span>Criterya puede contactarme para conversar sobre este resultado.</span></label>
+        <div class="send__row" style="margin-top:16px">
+          <button class="btn btn--big" type="button" id="d-btn" disabled>
+            Descargar el informe en PDF</button>
+        </div>
+        <div class="send__msg" id="d-msg"></div>
+      </div>
 
       <div class="actions">
-        <button class="btn" type="button" onclick="window.print()">Imprimir o guardar en PDF</button>
         <button class="btn btn--ghost" type="button" id="again">Empezar de nuevo</button>
       </div>
 
-      <div class="foot"><img src="https://criterya.vercel.app/criterya-logo.png" alt="Criterya · Consultora de gestión empresarial">
+      <div class="foot"><img src="/logo.png" alt="Criterya · Consultora de gestión empresarial">
         <p>Este diagnóstico es una primera aproximación construida sobre respuestas declaradas. Ordena prioridades y
         señala por dónde empezar; no reemplaza el relevamiento de cada área ni la jerarquización de causas, que son
         trabajo del consultor. Los puntajes de este instrumento no son comparables con los del diagnóstico express:
@@ -689,26 +719,22 @@ function resultados(){
       el.textContent=Math.round(c.global*e); if(k<1) requestAnimationFrame(tick); };
     requestAnimationFrame(tick); }
 
-  if(ENDPOINT) armarEnvio(c);
+  armarDescarga(c);
   $("#again").onclick=()=>{ if(confirm("Esto borra las respuestas guardadas. ¿Continuar?")){ borrarGuardado(); location.reload(); } };
 }
 
-/* ====== envio ====== */
-function armarEnvio(c){
-  const mail=$("#s-mail"), ok=$("#s-ok"), btn=$("#s-btn"), msg=$("#s-msg");
-  const valido=()=> /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(mail.value.trim()) && ok.checked;
-  const rev=()=>{ btn.disabled=!valido(); };
-  mail.oninput=rev; ok.onchange=rev;
-  mail.onkeydown=e=>{ if(e.key==="Enter" && valido()) btn.click(); };
-  btn.onclick=()=>enviar(c, mail.value.trim(), btn, msg);
-}
-function payload(c, email){
+/* ====== descarga del informe ====== */
+function payload(c, datos){
   const textos={};
   D.pr.forEach(q=>{ const n=R.resp[q.c]; if(n===undefined) return;
     textos[q.c] = n===-1 ? "No lo tengo medido" : (q.o.find(o=>o.n===n)||{}).t; });
   return {
     instrumento:"integral-distribuidora", rubro:"Rubro distribuidora",
-    empresa:R.enc.E4||"", persona:"", email:email, copia:true,
+    /* empresa es la razon social declarada en la descarga. E4 es la ciudad de
+       la casa central: antes se usaba como empresa por error. */
+    empresa:datos.empresa||"", ciudad:R.enc.E4||"",
+    persona:datos.nombre||"", telefono:datos.telefono||"",
+    email:datos.email||"", contactar:!!datos.contactar, copia:true,
     global:c.global, banda:c.banda.nombre,
     areas:c.areas.map(a=>({nombre:a.nombre,pts:a.pts,peso:a.peso,banda:a.banda.nombre})),
     foda:{F:c.foda.F.map(x=>x.t),D:c.foda.D.map(x=>x.t),O:c.foda.O.map(x=>x.t),A:c.foda.A.map(x=>x.t)},
@@ -736,20 +762,46 @@ function payload(c, email){
     }
   };
 }
-async function enviar(c, email, btn, msg){
-  btn.disabled=true; btn.textContent="Enviando…"; msg.className="send__msg"; msg.textContent="";
-  try{
-    const r=await fetch(ENDPOINT,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},
-        body:JSON.stringify(payload(c,email))});
-    const j=await r.json();
-    if(!j.ok) throw new Error(j.error||"respuesta no válida");
-    $("#send").innerHTML='<h3 class="sect">Resultado enviado</h3><p class="sect__note">Lo enviamos a <b>'+esc(email)+
-      '</b>. Si no aparece en unos minutos, conviene revisar la carpeta de correo no deseado.</p>';
-  }catch(err){
-    btn.disabled=false; btn.textContent="Enviar";
-    msg.className="send__msg send__msg--err";
-    msg.textContent="No se pudo enviar el correo. Puede reintentar, o guardar el resultado en PDF con el botón de abajo.";
+function armarDescarga(c){
+  const nom=$("#d-nom"), emp=$("#d-emp"), mail=$("#d-mail"), tel=$("#d-tel");
+  const ok=$("#d-ok"), btn=$("#d-btn"), msg=$("#d-msg");
+  const mailOk = v => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim());
+  const valido = () => nom.value.trim() && emp.value.trim() && mailOk(mail.value);
+  const rev = () => { btn.disabled = !valido(); };
+
+  [nom,emp,mail,tel].forEach(el => el.oninput = rev);
+  mail.onkeydown = e => { if(e.key==="Enter" && valido()) btn.click(); };
+
+  btn.onclick = () => descargar(c, {
+    nombre: nom.value.trim(), empresa: emp.value.trim(),
+    email: mail.value.trim(), telefono: tel.value.trim(), contactar: ok.checked
+  }, btn, msg);
+}
+
+async function descargar(c, datos, btn, msg){
+  btn.disabled = true;
+  btn.textContent = "Preparando el informe…";
+  msg.className = "send__msg";
+  msg.textContent = "";
+
+  /* El registro no debe bloquear la descarga: si el envío falla, el informe
+     se genera igual. El empresario ya invirtió media hora en esto. */
+  if(ENDPOINT){
+    try{
+      await fetch(ENDPOINT, {
+        method: "POST",
+        headers: {"Content-Type":"text/plain;charset=utf-8"},
+        body: JSON.stringify(payload(c, datos))
+      });
+    }catch(err){ /* silencio deliberado */ }
   }
+
+  msg.className = "send__msg";
+  msg.innerHTML = "Se abre el cuadro de impresión: elija <b>Guardar como PDF</b> como destino.";
+  btn.textContent = "Volver a descargar";
+  btn.disabled = false;
+
+  setTimeout(() => window.print(), 350);
 }
 
 /* ====== arranque ====== */
